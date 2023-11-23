@@ -131,7 +131,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			return GenResponse("405 Method Not Allowed", "text/plain", "Method Not Allowed", isHead);
 		}
 
-		if (!path.StartsWith(LISTENER_PATH + TIMETABLE_FILE_NAME))
+		if (path != (LISTENER_PATH + TIMETABLE_FILE_NAME))
 		{
 			return GenResponse("404 Not Found", "text/plain", "Not Found", isHead);
 		}
