@@ -37,6 +37,8 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		localAddressList = Dns.GetHostAddresses(Dns.GetHostName());
 		StartListener();
 		Task.Run(ListenTaskAsync);
+
+		AddLaunchBrowserButtonToContextMenu();
 	}
 
 	void StartListener()

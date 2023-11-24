@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFramework Condition="!$([MSBuild]::IsOSPlatform('windows'))">netstandard2.0</TargetFramework>
+		<TargetFramework Condition="$([MSBuild]::IsOSPlatform('windows'))">net48</TargetFramework>
 		<LangVersion>12</LangVersion>
+		<UseWindowsForms Condition="$([MSBuild]::IsOSPlatform('windows'))">true</UseWindowsForms>
 		<Nullable>enable</Nullable>
 		<Version>1.0.0</Version>
 		<Authors>Tetsu Otter</Authors>
@@ -22,6 +24,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="AtsEx.PluginHost" Version="1.0.0-rc3">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="AtsEx.CoreExtensions" Version="1.0.0-rc1">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="TRViS.JsonModels" Version="1.0.0" />

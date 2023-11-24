@@ -1,0 +1,29 @@
+using System;
+using System.Diagnostics;
+
+#if NET48
+using AtsEx.Extensions.ContextMenuHacker;
+#endif
+
+namespace TRViS.LocalServers.BveTs;
+
+public partial class TimetableServerPlugin
+{
+	void AddLaunchBrowserButtonToContextMenu()
+	{
+#if NET48
+		Extensions.AllExtensionsLoaded += (_, _) =>
+		{
+			IContextMenuHacker ctxMenuHacker = Extensions.GetExtension<IContextMenuHacker>();
+
+			ctxMenuHacker.AddClickableMenuItem("TRViS用QRコードを表示", OnOpenBrowserClicked, ContextMenuItemType.CoreAndExtensions);
+		};
+#endif
+	}
+
+	void OnOpenBrowserClicked(object? semder, EventArgs e)
+	{
+		string url = $"http://localhost:{port}{LISTENER_PATH}{QR_HTML_FILE_NAME}?host={ipv4Address}&port={port}";
+		Process.Start(url);
+	}
+}
