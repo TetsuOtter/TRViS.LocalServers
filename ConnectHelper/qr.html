@@ -1,0 +1,56 @@
+<html>
+<head>
+	<title>TRViS Connect Helper (QR)</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<style>
+		body {
+				margin: 8pt;
+				padding: 8pt;
+				text-align: center;
+		}
+		#qrcode {
+				margin: 10%;
+		}
+		#qrcode img {
+				width: 100%;
+		}
+	</style>
+	<script type="text/javascript" src="qrcode.min.js"></script>
+</head>
+<body>
+	<h1>TRViS連携用QRコード</h1>
+	<p>TRViSがインストールされた端末でこのQRコードを読み取ってください。<br/>(スマートフォンとこのマシンが同じネットワークに属している必要があります)</p>
+	<div id="qrcode"></div>
+	<p>または、下のURLをTRViSにて入力してください。</p>
+	<a id="link-text"></a>
+	<script type="text/javascript">
+		const qrcodeElement = document.getElementById("qrcode");
+		const linkTextElement = document.getElementById("link-text");
+		function setURL() {
+			const params = new URLSearchParams(window.location.search);
+			const host = params.get("host");
+			const port = parseInt(params.get("port"));
+			if (!host || !port || !(0 < port && port < 65536)) {
+				qrcodeElement.innerHTML = `<span style="color: red; font-weight: bold;">パラメータが不正です<br/>(host: '${host}', port: '${port}')</span>`;
+				return;
+			}
+
+			var url = `http://${host}:${port}/timetable.json`;
+			new QRCode(
+				qrcodeElement,
+				{
+					text: `trvis://app/open/json?path=${url}`,
+					width: 512,
+					height: 512,
+					correntLevel: QRCode.CorrectLevel.H
+				}
+			);
+			linkTextElement.href = url;
+			linkTextElement.innerText = url;
+		}
+
+		setURL();
+	</script>
+</body>
+</html>
