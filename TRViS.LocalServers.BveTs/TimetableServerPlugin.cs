@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -172,18 +173,26 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 	{
 		Scenario scenario = BveHacker.Scenario;
 		ScenarioInfo scenarioInfo = BveHacker.ScenarioInfo;
-		StationList stations = scenario.Route.Stations;
 		TimeTable timeTable = scenario.TimeTable;
 
-		TimetableRowData[] trvisTimetableRows = new TimetableRowData[stations.Count];
+		Station[] stationArray = scenario.Route.Stations.Cast<Station>().ToArray();
+		TimetableRowData[] trvisTimetableRows = new TimetableRowData[stationArray.Length];
+		// 最後の駅以外ドアが開かない場合、その列車は非営業列車である -> ドアが開かない駅でも運転停車ではない
+		bool isAllStationDoorNotOpenExceptLastStation = stationArray
+			.Take(stationArray.Length - 1)
+			.All(station => station.Pass || station.DoorSide == 0);
 		for (int i = 0; i < trvisTimetableRows.Length; i++)
 		{
 			int indexOfTimetableInstance = i + 1;
-			bool IsLastStop = i == (trvisTimetableRows.Length - 1);
 
+			Station? station = stationArray[i];
+			bool isLastStop = station.IsTerminal;
+			bool isPass = station.Pass;
+			string arriveStr = timeTable.ArrivalTimeTexts[indexOfTimetableInstance];
+			string departureStr = timeTable.DepertureTimeTexts[indexOfTimetableInstance];
 			trvisTimetableRows[i] = new TimetableRowData(
 				StationName: timeTable.NameTexts[indexOfTimetableInstance],
-				Location_m: stations[i].Location,
+				Location_m: station.Location,
 				Longitude_deg: null,
 				Latitude_deg: null,
 				OnStationDetectRadius_m: null,
@@ -192,12 +201,12 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 				TrackName: null,
 				DriveTime_MM: null,
 				DriveTime_SS: null,
-				IsOperationOnlyStop: false,
-				IsPass: false,
-				HasBracket: false,
-				IsLastStop: IsLastStop,
-				Arrive: timeTable.ArrivalTimeTexts[indexOfTimetableInstance],
-				Departure: timeTable.DepertureTimeTexts[indexOfTimetableInstance],
+				IsOperationOnlyStop: !isPass && !isAllStationDoorNotOpenExceptLastStation && station.DoorSide == 0,
+				IsPass: isPass,
+				HasBracket: i == 0 && !string.IsNullOrEmpty(arriveStr),
+				IsLastStop: isLastStop,
+				Arrive: arriveStr,
+				Departure: isLastStop ? null : departureStr,
 				RunInLimit: null,
 				RunOutLimit: null,
 				Remarks: null,
@@ -220,7 +229,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			Destination: null,
 			BeginRemarks: null,
 			AfterRemarks: null,
-			Remarks: "Generated with TRViS Local Servers (AtsEX Extension)",
+			Remarks: "Generated with TRViS Local Servers (AtsEX Extension)\n" + scenarioInfo.Comment,
 			BeforeDeparture: null,
 			TrainInfo: null,
 			Direction: 1,
