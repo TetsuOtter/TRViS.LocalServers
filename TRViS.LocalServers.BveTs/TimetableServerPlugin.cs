@@ -23,6 +23,8 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 	const string LISTENER_PATH = "/";
 	const string TIMETABLE_FILE_MIME = "application/json";
 	const string TIMETABLE_FILE_NAME = "timetable.json";
+	const string QR_HTML_FILE_NAME = "qr.html";
+	const string QRCODE_MIN_JS_FILE_NAME = "qrcode.min.js";
 	const int LISTENER_PORT = 58600;
 	const int PORT_RETRY_MAX = 10;
 	readonly IPAddress[] localAddressList;
@@ -136,6 +138,11 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			return GenResponse("405 Method Not Allowed", "text/plain", "Method Not Allowed", isHead);
 		}
 
+		if (path == (LISTENER_PATH + QR_HTML_FILE_NAME) || path.StartsWith($"{LISTENER_PATH}{QR_HTML_FILE_NAME}?"))
+			return GenResponseFromEmbeddedResource(QR_HTML_FILE_NAME, "text/html", isHead);
+		else if (path == (LISTENER_PATH + QRCODE_MIN_JS_FILE_NAME) || path.StartsWith($"{LISTENER_PATH}{QRCODE_MIN_JS_FILE_NAME}?"))
+			return GenResponseFromEmbeddedResource(QRCODE_MIN_JS_FILE_NAME, "text/javascript", isHead);
+
 		if (path != (LISTENER_PATH + TIMETABLE_FILE_NAME))
 		{
 			return GenResponse("404 Not Found", "text/plain", "Not Found", isHead);
@@ -244,6 +251,15 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		);
 
 		return JsonSerializer.SerializeToUtf8Bytes<WorkGroupData[]>([trvisWorkGroupData], new JsonSerializerOptions { WriteIndented = false });
+	}
+
+	private static (byte[], byte[]) GenResponseFromEmbeddedResource(string fileName, string contentType, bool isHead = false)
+	{
+		using Stream stream = currentAssembly.GetManifestResourceStream($"TRViS.LocalServers.BveTs.{fileName}");
+		long length = stream.Length;
+		byte[] content = new byte[length];
+		stream.Read(content, 0, (int)length);
+		return GenResponse("200 OK", contentType, content, isHead);
 	}
 
 	private static (byte[], byte[]) GenResponse(string status, string contentType, string content, bool isHead = false)
