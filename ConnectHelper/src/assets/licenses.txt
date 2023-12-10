@@ -983,6 +983,10 @@
 │  ├─ undici-types@5.26.5
 │  │  ├─ URL: git+https://github.com/nodejs/undici.git
 │  │  └─ VendorUrl: https://undici.nodejs.org/
+│  ├─ vite-plugin-singlefile@0.13.5
+│  │  ├─ URL: https://github.com/richardtallent/vite-plugin-singlefile
+│  │  ├─ VendorName: richard@tallent.us
+│  │  └─ VendorUrl: https://github.com/richardtallent/vite-plugin-singlefile/tree/main/#readme
 │  ├─ vite@5.0.7
 │  │  ├─ URL: git+https://github.com/vitejs/vite.git
 │  │  ├─ VendorName: Evan You
