@@ -1,0 +1,10 @@
+body {
+	margin: 8pt;
+	padding: 8pt;
+	text-align: center;
+}
+
+details {
+	font-family: monospace;
+	text-align: left;
+}
