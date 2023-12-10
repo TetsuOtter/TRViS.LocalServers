@@ -20,6 +20,19 @@ const App = () => {
 			.then((text) => setLicenseText(text));
 	}, []);
 
+	const readQrGuide = !isParamError && (
+		<>
+			<p>
+				TRViSがインストールされた端末でこのQRコードを読み取ってください。
+				<br />
+				(スマートフォンとこのマシンが同じネットワークに属している必要があります)
+			</p>
+
+			<p>または、下のURLをTRViSにて入力してください。</p>
+			<a href={url}>{url}</a>
+		</>
+	);
+
 	return (
 		<>
 			<h1>TRViS連携用QRコード</h1>
@@ -39,14 +52,7 @@ const App = () => {
 				)}
 			</div>
 
-			<p>
-				TRViSがインストールされた端末でこのQRコードを読み取ってください。
-				<br />
-				(スマートフォンとこのマシンが同じネットワークに属している必要があります)
-			</p>
-
-			<p>または、下のURLをTRViSにて入力してください。</p>
-			<a href={url}>{url}</a>
+			{readQrGuide}
 
 			<p>
 				本アプリケーションは、以下のパッケージを使用しています。
