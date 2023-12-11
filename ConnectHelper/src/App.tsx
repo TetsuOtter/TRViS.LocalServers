@@ -4,6 +4,7 @@ import UrlQr from "./Components/UrlQr";
 import licenses_txt from "./assets/licenses.txt";
 
 import "./App.css";
+import CurrentData from "./Components/CurrentData";
 
 const App = () => {
 	const [licenseText, setLicenseText] = useState<string>("");
@@ -50,6 +51,13 @@ const App = () => {
 					<p>または、下のURLをTRViSにて入力してください。</p>
 					<a href={url}>{url}</a>
 				</>
+			)}
+
+			{!isParamError && (
+				<CurrentData
+					host={host}
+					port={port}
+				/>
 			)}
 
 			<p>
