@@ -24,8 +24,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 	const string LISTENER_PATH = "/";
 	const string TIMETABLE_FILE_MIME = "application/json";
 	const string TIMETABLE_FILE_NAME = "timetable.json";
-	const string QR_HTML_FILE_NAME = "qr.html";
-	const string QRCODE_MIN_JS_FILE_NAME = "qrcode.min.js";
+	const string QR_HTML_FILE_NAME = "index.html";
 	const int LISTENER_PORT = 58600;
 	const int PORT_RETRY_MAX = 10;
 	readonly IPAddress[] localAddressList;
@@ -141,10 +140,9 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			return GenResponse("405 Method Not Allowed", "text/plain", "Method Not Allowed", isHead);
 		}
 
-		if (path == (LISTENER_PATH + QR_HTML_FILE_NAME) || path.StartsWith($"{LISTENER_PATH}{QR_HTML_FILE_NAME}?"))
+		bool isRequestToRoot = path == LISTENER_PATH || path.StartsWith($"{LISTENER_PATH}?");
+		if (isRequestToRoot || path == (LISTENER_PATH + QR_HTML_FILE_NAME) || path.StartsWith($"{LISTENER_PATH}{QR_HTML_FILE_NAME}?"))
 			return GenResponseFromEmbeddedResource(QR_HTML_FILE_NAME, "text/html", isHead);
-		else if (path == (LISTENER_PATH + QRCODE_MIN_JS_FILE_NAME) || path.StartsWith($"{LISTENER_PATH}{QRCODE_MIN_JS_FILE_NAME}?"))
-			return GenResponseFromEmbeddedResource(QRCODE_MIN_JS_FILE_NAME, "text/javascript", isHead);
 
 		if (path != (LISTENER_PATH + TIMETABLE_FILE_NAME))
 		{

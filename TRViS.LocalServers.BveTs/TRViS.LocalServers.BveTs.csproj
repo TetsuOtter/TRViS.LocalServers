@@ -18,8 +18,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="../ConnectHelper/qr.html" />
-		<EmbeddedResource Include="../ConnectHelper/qrcodejs/qrcode.min.js" />
+		<EmbeddedResource Include="../ConnectHelper/dist/index.html" />
 	</ItemGroup>
 
 	<ItemGroup>
