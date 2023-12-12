@@ -33,6 +33,9 @@
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference
+			Include="TR.SimpleHttpServer"
+			Version="1.0.0" />
+		<PackageReference
 			Include="TRViS.JsonModels"
 			Version="1.0.0" />
 		<PackageReference
