@@ -22,14 +22,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AtsEx.PluginHost" Version="1.0.0-rc3">
+		<PackageReference
+			Include="AtsEx.PluginHost"
+			Version="1.0.0-rc3">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="AtsEx.CoreExtensions" Version="1.0.0-rc1">
+		<PackageReference
+			Include="AtsEx.CoreExtensions"
+			Version="1.0.0-rc1">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="TRViS.JsonModels" Version="1.0.0" />
-		<PackageReference Include="System.Text.Json" Version="8.0.0" />
+		<PackageReference
+			Include="TRViS.JsonModels"
+			Version="1.0.0" />
+		<PackageReference
+			Include="System.Text.Json"
+			Version="8.0.0" />
 	</ItemGroup>
 
 </Project>
