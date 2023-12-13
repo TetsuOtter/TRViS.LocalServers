@@ -21,9 +21,11 @@ namespace TRViS.LocalServers.BveTs;
 public partial class TimetableServerPlugin : PluginBase, IExtension
 {
 	const string LISTENER_PATH = "/";
-	const string TIMETABLE_FILE_MIME = "application/json";
+	const string JSON_FILE_MIME = "application/json";
+	const string TIMETABLE_FILE_MIME = JSON_FILE_MIME;
 	const string TIMETABLE_FILE_NAME = "timetable.json";
 	const string QR_HTML_FILE_NAME = "index.html";
+	const string SCENARIO_INFO_FILE_NAME = "scenario-info.json";
 	const int LISTENER_PORT = 58600;
 	const int PORT_RETRY_MAX = 10;
 	readonly IPAddress[] localAddressList;
@@ -87,15 +89,21 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		}
 	}
 
+	static bool IsPathAcceptable(string path)
+		=> path switch
+		{
+			LISTENER_PATH or (LISTENER_PATH + QR_HTML_FILE_NAME) => true,
+			LISTENER_PATH + TIMETABLE_FILE_NAME => true,
+			LISTENER_PATH + SCENARIO_INFO_FILE_NAME => true,
+			_ => false
+		};
+
 	async Task<HttpResponse> AcceptTcpClientAsync(HttpRequest request)
 	{
 		string path = request.Path;
+		string pathWithoutQueryOrHash = path.Split('?', '#')[0];
 
-		bool isRequestToRoot = path == LISTENER_PATH || path.StartsWith($"{LISTENER_PATH}?");
-		if (isRequestToRoot || path == (LISTENER_PATH + QR_HTML_FILE_NAME) || path.StartsWith($"{LISTENER_PATH}{QR_HTML_FILE_NAME}?"))
-			return await GenResponseFromEmbeddedResourceAsync(QR_HTML_FILE_NAME, "text/html");
-
-		if (path != (LISTENER_PATH + TIMETABLE_FILE_NAME))
+		if (!IsPathAcceptable(pathWithoutQueryOrHash))
 		{
 			return new HttpResponse(
 				status: "404 Not Found",
@@ -104,6 +112,9 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 				body: "Not Found"
 			);
 		}
+
+		if (pathWithoutQueryOrHash is LISTENER_PATH or (LISTENER_PATH + QR_HTML_FILE_NAME))
+			return await GenResponseFromEmbeddedResourceAsync(QR_HTML_FILE_NAME, "text/html");
 
 		if (!BveHacker.IsScenarioCreated)
 		{
@@ -117,7 +128,12 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 
 		try
 		{
-			byte[] content = GenerateJson();
+			byte[] content = pathWithoutQueryOrHash switch
+			{
+				LISTENER_PATH + TIMETABLE_FILE_NAME => GenerateJson(),
+				LISTENER_PATH + SCENARIO_INFO_FILE_NAME => GenerateScenarioInfoJson(),
+				_ => throw new InvalidOperationException("TimetableServerPlugin: Invalid path.")
+			};
 
 			return new HttpResponse(
 				status: "200 OK",
@@ -135,6 +151,25 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 				body: $"Internal Server Error: {ex.Message}\r\n{ex.StackTrace}"
 			);
 		}
+	}
+
+	static readonly JsonSerializerOptions GenerateScenarioInfo_JsonSerializerOptions = new()
+	{
+		WriteIndented = false,
+		PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+	};
+	private byte[] GenerateScenarioInfoJson()
+	{
+		ResponseTypes.ScenarioInfo scenarioInfo = new(
+			routeName: BveHacker.ScenarioInfo.RouteTitle,
+			scenarioName: BveHacker.ScenarioInfo.Title,
+			carName: BveHacker.ScenarioInfo.VehicleTitle
+		);
+
+		return JsonSerializer.SerializeToUtf8Bytes(
+			scenarioInfo,
+			GenerateScenarioInfo_JsonSerializerOptions
+		);
 	}
 
 	byte[] GenerateJson()
