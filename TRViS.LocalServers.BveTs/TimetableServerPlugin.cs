@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -32,8 +33,11 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 	readonly HttpServer server;
 	readonly int port;
 
+	readonly NameValueCollection additionalHeaders = [];
+
 	public TimetableServerPlugin(PluginBuilder builder) : base(builder)
 	{
+		additionalHeaders.Add("Access-Control-Allow-Origin", "*");
 		localAddressList = Dns.GetHostAddresses(Dns.GetHostName());
 		server = StartListener(out port);
 
@@ -83,7 +87,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			return Task.FromResult(new HttpResponse(
 				status: "500 Internal Server Error",
 				ContentType: "text/plain",
-				additionalHeaders: [],
+				additionalHeaders: additionalHeaders,
 				body: $"Internal Server Error: {ex.Message}\r\n{ex.StackTrace}"
 			));
 		}
@@ -108,20 +112,20 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			return new HttpResponse(
 				status: "404 Not Found",
 				ContentType: "text/plain",
-				additionalHeaders: [],
+				additionalHeaders: additionalHeaders,
 				body: "Not Found"
 			);
 		}
 
 		if (pathWithoutQueryOrHash is LISTENER_PATH or (LISTENER_PATH + QR_HTML_FILE_NAME))
-			return await GenResponseFromEmbeddedResourceAsync(QR_HTML_FILE_NAME, "text/html");
+			return await GenResponseFromEmbeddedResourceAsync(QR_HTML_FILE_NAME, "text/html", additionalHeaders);
 
 		if (!BveHacker.IsScenarioCreated)
 		{
 			return new(
 				status: "204 No Content",
 				ContentType: "text/plain",
-				additionalHeaders: [],
+				additionalHeaders: additionalHeaders,
 				body: "No Content (Scenario Not Loaded)"
 			);
 		}
@@ -138,7 +142,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			return new HttpResponse(
 				status: "200 OK",
 				ContentType: TIMETABLE_FILE_MIME,
-				additionalHeaders: [],
+				additionalHeaders: additionalHeaders,
 				body: content
 			);
 		}
@@ -147,7 +151,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			return new HttpResponse(
 				status: "500 Internal Server Error",
 				ContentType: "text/plain",
-				additionalHeaders: [],
+				additionalHeaders: additionalHeaders,
 				body: $"Internal Server Error: {ex.Message}\r\n{ex.StackTrace}"
 			);
 		}
@@ -267,7 +271,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		return JsonSerializer.SerializeToUtf8Bytes<WorkGroupData[]>([trvisWorkGroupData], new JsonSerializerOptions { WriteIndented = false });
 	}
 
-	private static async Task<HttpResponse> GenResponseFromEmbeddedResourceAsync(string fileName, string contentType, bool isHead = false)
+	private static async Task<HttpResponse> GenResponseFromEmbeddedResourceAsync(string fileName, string contentType, NameValueCollection additionalHeaders)
 	{
 		using Stream stream = currentAssembly.GetManifestResourceStream($"TRViS.LocalServers.BveTs.{fileName}");
 		long length = stream.Length;
@@ -277,7 +281,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		return new HttpResponse(
 			status: "200 OK",
 			ContentType: contentType,
-			additionalHeaders: [],
+			additionalHeaders: additionalHeaders,
 			body: content
 		);
 	}
