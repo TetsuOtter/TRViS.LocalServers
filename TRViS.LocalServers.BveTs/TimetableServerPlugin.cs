@@ -197,6 +197,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			return str;
 
 		StringBuilder sb = new(((str.Length - 1) / (spaceCount + 1)) + 1);
+		sb.Append(str[0]);
 		for (int i = 1, iSpace = 0; i < str.Length; i++)
 		{
 			if (iSpace != spaceCount)
