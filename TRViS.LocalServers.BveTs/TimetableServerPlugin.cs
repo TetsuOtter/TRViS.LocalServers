@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using AtsEx.PluginHost.Plugins;
@@ -223,6 +224,8 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		WriteIndented = false,
 		DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
 	};
+	private static readonly Regex beginWithSpeedLimitRegex = new(@"^\d+\s*\/.+$", RegexOptions.Compiled);
+	private static readonly Regex endWithSpeedLimitRegex = new(@"^.+\/\s*\d+$", RegexOptions.Compiled);
 	byte[] GenerateJson()
 	{
 		Scenario scenario = BveHacker.Scenario;
@@ -240,7 +243,21 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			int indexOfTimetableInstance = i + 1;
 
 			Station? station = stationArray[i];
-			string staName = RemoveSpaceCharBetweenEachChar(station.Name);
+			string staName = station.Name;
+			string? remarks = null;
+			if (beginWithSpeedLimitRegex.Match(staName) is Match beginMatch && beginMatch.Success)
+			{
+				remarks = beginMatch.Value;
+				staName = beginWithSpeedLimitRegex.Replace(staName, string.Empty);
+			}
+			else if (endWithSpeedLimitRegex.Match(staName) is Match endMatch && endMatch.Success)
+			{
+				remarks = endMatch.Value;
+				staName = endWithSpeedLimitRegex.Replace(staName, string.Empty);
+			}
+			staName = RemoveSpaceCharBetweenEachChar(station.Name);
+			if (remarks is not null)
+				remarks = $"駅間制限${remarks.Trim()}";
 			bool isLastStop = station.IsTerminal;
 			bool isPass = station.Pass;
 			string arriveStr = timeTable.ArrivalTimeTexts[indexOfTimetableInstance];
@@ -264,7 +281,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 				Departure: isLastStop ? null : departureStr,
 				RunInLimit: null,
 				RunOutLimit: null,
-				Remarks: null,
+				Remarks: remarks,
 				MarkerColor: null,
 				MarkerText: null,
 				WorkType: null
