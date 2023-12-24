@@ -72,7 +72,12 @@ const App = () => {
 						</p>
 					</>
 				) : (
-					<UrlQr url={trvisUrl} />
+					<UrlQr
+						url={trvisUrl}
+						style={{
+							width: "100%",
+						}}
+					/>
 				)}
 			</div>
 
