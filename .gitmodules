@@ -1,3 +1,0 @@
-[submodule "ConnectHelper/qrcodejs"]
-	path = ConnectHelper/qrcodejs
-	url = git@github.com:davidshimjs/qrcodejs.git
