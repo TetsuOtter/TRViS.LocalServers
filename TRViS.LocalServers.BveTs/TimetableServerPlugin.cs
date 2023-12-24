@@ -224,8 +224,8 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		WriteIndented = false,
 		DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
 	};
-	private static readonly Regex beginWithSpeedLimitRegex = new(@"^\d+\s*\/.+$", RegexOptions.Compiled);
-	private static readonly Regex endWithSpeedLimitRegex = new(@"^.+\/\s*\d+$", RegexOptions.Compiled);
+	private static readonly Regex beginWithSpeedLimitRegex = new(@"^([\d-]+)\s*\/(.+)$", RegexOptions.Compiled);
+	private static readonly Regex endWithSpeedLimitRegex = new(@"^(.+)\/\s*([\d-]+)$", RegexOptions.Compiled);
 	byte[] GenerateJson()
 	{
 		Scenario scenario = BveHacker.Scenario;
@@ -247,17 +247,17 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			string? remarks = null;
 			if (beginWithSpeedLimitRegex.Match(staName) is Match beginMatch && beginMatch.Success)
 			{
-				remarks = beginMatch.Value;
-				staName = beginWithSpeedLimitRegex.Replace(staName, string.Empty);
+				remarks = beginMatch.Groups[1].Value;
+				staName = beginMatch.Groups[2].Value;
 			}
 			else if (endWithSpeedLimitRegex.Match(staName) is Match endMatch && endMatch.Success)
 			{
-				remarks = endMatch.Value;
-				staName = endWithSpeedLimitRegex.Replace(staName, string.Empty);
+				staName = endMatch.Groups[1].Value;
+				remarks = endMatch.Groups[2].Value;
 			}
 			staName = RemoveSpaceCharBetweenEachChar(station.Name);
 			if (remarks is not null)
-				remarks = $"駅間制限${remarks.Trim()}";
+				remarks = $"駅間制限 {remarks}";
 			bool isLastStop = station.IsTerminal;
 			bool isPass = station.Pass;
 			string arriveStr = timeTable.ArrivalTimeTexts[indexOfTimetableInstance];
