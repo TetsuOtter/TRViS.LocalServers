@@ -84,7 +84,12 @@ const CurrentData = ({ host, port }: CurrentDataProps) => {
 			}}>
 			<h3>現在読み込まれているデータ</h3>
 			{currentScenarioInfo == null ? (
-				<p>{errorMessage}</p>
+				<p
+					style={{
+						color: "red",
+					}}>
+					{errorMessage}
+				</p>
 			) : (
 				<>
 					<p>路線名: {currentScenarioInfo?.routeName}</p>
