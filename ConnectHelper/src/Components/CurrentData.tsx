@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 type CurrentDataProps = {
 	host: string;
 	port: number;
+	setHasError: (hasError: boolean) => void;
 };
 
 interface CurrentScenarioInfo {
@@ -15,7 +16,7 @@ const requestInit: RequestInit = {};
 
 const REQUEST_INTERVAL = 30 * 1000;
 
-const CurrentData = ({ host, port }: CurrentDataProps) => {
+const CurrentData = ({ host, port, setHasError }: CurrentDataProps) => {
 	const [currentScenarioInfo, setCurrentScenarioInfo] =
 		useState<CurrentScenarioInfo | null>(null);
 	const [errorMessage, setErrorMessage] = useState<string>("");
@@ -42,9 +43,11 @@ const CurrentData = ({ host, port }: CurrentDataProps) => {
 						scenarioName: data.scenarioName,
 						carName: data.carName,
 					});
+					setHasError(false);
 				})
 				.catch((e) => {
 					setCurrentScenarioInfo(null);
+					setHasError(true);
 					console.error(e);
 					if (
 						(e instanceof DOMException && e.name === "AbortError") ||
@@ -62,7 +65,7 @@ const CurrentData = ({ host, port }: CurrentDataProps) => {
 		} catch (e) {
 			console.error(e);
 		}
-	}, [host, port]);
+	}, [host, port, setHasError]);
 
 	useEffect(() => {
 		if (window.fetch == null) {

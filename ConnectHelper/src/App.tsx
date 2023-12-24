@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import UrlQr from "./Components/UrlQr";
 
 import licenses_txt from "./assets/licenses.txt";
@@ -8,12 +8,20 @@ import CurrentData from "./Components/CurrentData";
 
 const App = () => {
 	const [licenseText, setLicenseText] = useState<string>("");
+	const [hasCurrentDataLoadError, setHasCurrentDataLoadError] =
+		useState<boolean>(false);
+	const [forceShowQr, setForceShowQr] = useState<boolean>(false);
+
 	const params = new URLSearchParams(window.location.search);
 	const host = params.get("host") ?? "";
 	const port = parseInt(params.get("port") ?? "");
 	const isParamError = !host || !port || !(0 < port && port < 65536);
 	const url = `http://${host}:${port}/timetable.json`;
 	const trvisUrl = `trvis://app/open/json?path=${url}`;
+
+	const enableForceShowQr = useCallback(() => {
+		setForceShowQr(true);
+	}, []);
 
 	useEffect(() => {
 		fetch(licenses_txt)
@@ -27,7 +35,9 @@ const App = () => {
 			<div
 				style={{
 					margin: "0 auto",
+					padding: "0.5em",
 					width: "75vmin",
+					border: "solid 1px black",
 				}}>
 				{isParamError ? (
 					<span style={{ color: "red", fontWeight: "bold" }}>
@@ -35,6 +45,32 @@ const App = () => {
 						<br />
 						(host: {host}, port: {port})
 					</span>
+				) : !forceShowQr && hasCurrentDataLoadError ? (
+					<>
+						<p>
+							シナリオが読み込まれていない、または時刻表サーバと接続できないため、
+							<br />
+							QRコードを非表示にしています。
+						</p>
+						<p>
+							シナリオ読み込み前は時刻表データが存在しないため、
+							<br />
+							QRコードを読み込んでも
+							<b> TRViSでデータの読み込みに失敗します</b>。
+						</p>
+						<p>
+							それでもQRコードを表示したい場合は、下のボタンを押下してください。
+							<br />
+							<button
+								style={{
+									margin: "0.5em",
+									padding: "0.5em",
+								}}
+								onClick={enableForceShowQr}>
+								強制的にQRコードを表示
+							</button>
+						</p>
+					</>
 				) : (
 					<UrlQr url={trvisUrl} />
 				)}
@@ -60,6 +96,7 @@ const App = () => {
 				<CurrentData
 					host={host}
 					port={port}
+					setHasError={setHasCurrentDataLoadError}
 				/>
 			)}
 
