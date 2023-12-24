@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -176,6 +177,45 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		);
 	}
 
+	static string RemoveSpaceCharBetweenEachChar(string str)
+	{
+		str = str.Trim();
+		if (str.Length < 2 || !char.IsWhiteSpace(str, 1))
+			return str;
+
+		int spaceCount = 0;
+		for (int i = 1; i < str.Length; i++)
+		{
+			if (char.IsWhiteSpace(str, i))
+				spaceCount++;
+			else
+				break;
+		}
+
+		if ((str.Length - 1) % (spaceCount + 1) != 0)
+			return str;
+
+		StringBuilder sb = new(((str.Length - 1) / (spaceCount + 1)) + 1);
+		for (int i = 1, iSpace = 0; i < str.Length; i++)
+		{
+			if (iSpace != spaceCount)
+			{
+				if (char.IsWhiteSpace(str, i))
+					iSpace++;
+				else
+					return str;
+			}
+			else
+			{
+				if (char.IsWhiteSpace(str, i))
+					return str;
+				else
+					iSpace = 0;
+				sb.Append(str[i]);
+			}
+		}
+		return sb.ToString();
+	}
 	byte[] GenerateJson()
 	{
 		Scenario scenario = BveHacker.Scenario;
@@ -193,12 +233,13 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			int indexOfTimetableInstance = i + 1;
 
 			Station? station = stationArray[i];
+			string staName = RemoveSpaceCharBetweenEachChar(station.Name);
 			bool isLastStop = station.IsTerminal;
 			bool isPass = station.Pass;
 			string arriveStr = timeTable.ArrivalTimeTexts[indexOfTimetableInstance];
 			string departureStr = timeTable.DepertureTimeTexts[indexOfTimetableInstance];
 			trvisTimetableRows[i] = new TimetableRowData(
-				StationName: timeTable.NameTexts[indexOfTimetableInstance],
+				StationName: staName,
 				Location_m: station.Location,
 				Longitude_deg: null,
 				Latitude_deg: null,
