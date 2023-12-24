@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 using AtsEx.PluginHost.Plugins;
@@ -216,6 +217,11 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		}
 		return sb.ToString();
 	}
+	static readonly JsonSerializerOptions GenerateJson_JsonSerializerOptions = new()
+	{
+		WriteIndented = false,
+		DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+	};
 	byte[] GenerateJson()
 	{
 		Scenario scenario = BveHacker.Scenario;
@@ -309,7 +315,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			Works: [trvisWorkData]
 		);
 
-		return JsonSerializer.SerializeToUtf8Bytes<WorkGroupData[]>([trvisWorkGroupData], new JsonSerializerOptions { WriteIndented = false });
+		return JsonSerializer.SerializeToUtf8Bytes<WorkGroupData[]>([trvisWorkGroupData], GenerateJson_JsonSerializerOptions);
 	}
 
 	private static async Task<HttpResponse> GenResponseFromEmbeddedResourceAsync(string fileName, string contentType, NameValueCollection additionalHeaders)
