@@ -21,7 +21,7 @@ export default memo(function ConnectionQr({
 			style={{
 				margin: "0 auto",
 				padding: "0.5em",
-				width: "75vmin",
+				width: "90vmin",
 				border: "solid 1px black",
 			}}>
 			{IS_URL_PARAM_ERROR ? (
@@ -60,7 +60,8 @@ export default memo(function ConnectionQr({
 				<UrlQr
 					url={TRVIS_APP_LINK_PATH}
 					style={{
-						width: "100%",
+						width: "80%",
+						margin: "10%",
 					}}
 				/>
 			)}

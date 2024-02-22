@@ -8,15 +8,22 @@ import {
 	TIMETABLE_JSON_URL,
 } from "./constants/connectionParams";
 import LicenseInfo from "./Components/LicenseInfo";
+import ConnectionlessQr from "./Components/ConnectionlessQr";
 
 const App = () => {
 	const [hasCurrentDataLoadError, setHasCurrentDataLoadError] =
+		useState<boolean>(false);
+	const [isConnectionlessMode, setIsConnectionlessMode] =
 		useState<boolean>(false);
 
 	return (
 		<>
 			<h1>TRViS連携用QRコード</h1>
-			<ConnectionQr hasCurrentDataLoadError={hasCurrentDataLoadError} />
+			{isConnectionlessMode ? (
+				<ConnectionlessQr />
+			) : (
+				<ConnectionQr hasCurrentDataLoadError={hasCurrentDataLoadError} />
+			)}
 
 			{!IS_URL_PARAM_ERROR && (
 				<>
@@ -30,6 +37,21 @@ const App = () => {
 						または、下のURLをTRViSにて入力してください。
 						<br />
 						<a href={TIMETABLE_JSON_URL}>{TIMETABLE_JSON_URL}</a>
+					</p>
+
+					<p>
+						QRコードを読んでもうまく接続できない場合は、通信不要モードをお試しください。
+						<br />
+						<button
+							onClick={() => setIsConnectionlessMode((v) => !v)}
+							style={{
+								margin: "0.5em",
+								padding: "0.5em",
+							}}>
+							{isConnectionlessMode
+								? "通信モードに切り替え"
+								: "通信不要モードに切り替え"}
+						</button>
 					</p>
 				</>
 			)}
