@@ -101,11 +101,8 @@ jobs:
           mv .out/TRViS.LocalServers.BveTs.dll ${{ env.ZIP_DIR }}/
           mv .out/*.dll ${{ env.ZIP_DIR }}/TRViS.LocalServers.BveTs.deps/
           cp TRViS.LocalServers.BveTs/README.md ${{ env.ZIP_DIR }}/
-          cp LICENSES ${{ env.ZIP_DIR }}/
-      - uses: actions/download-artifact@v4
-        with:
-          name: LICENSE-NODE.md
-          path: ./zip/LICENSE-NODE.md
+          cp LICENSE ${{ env.ZIP_DIR }}/
+          cp ConnectHelper/LICENSE-NODE.md ${{ env.ZIP_DIR }}/
 
       - name: Zip release files with zip
         run: 7z a -tzip TRViS.LocalServers.BveTs.zip ${{ env.ZIP_DIR }}
