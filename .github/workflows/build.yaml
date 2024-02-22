@@ -89,6 +89,13 @@ jobs:
           path: ./ConnectHelper/dist/index.html
       - run: takeown ./ConnectHelper/dist/index.html
 
+      - name: cache nuget packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-
       - name: Install dependencies
         run: dotnet restore ${{ env.BVETS_SERVER_CSPROJ_PATH }}
 

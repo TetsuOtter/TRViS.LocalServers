@@ -15,6 +15,7 @@
 		<PackageProjectUrl>https://github.com/TetsuOtter/TRViS.LocalServers</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/TetsuOtter/TRViS.LocalServers</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
+		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 	</PropertyGroup>
 
 	<ItemGroup>
