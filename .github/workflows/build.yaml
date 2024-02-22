@@ -87,7 +87,7 @@ jobs:
         with:
           name: index.html
           path: ./ConnectHelper/dist/index.html
-      - run: takeown ./ConnectHelper/dist/index.html
+      - run: takeown /f .\ConnectHelper\dist\index.html
 
       - name: cache nuget packages
         uses: actions/cache@v4
