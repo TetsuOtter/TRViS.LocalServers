@@ -15,7 +15,7 @@ env:
   BVETS_SERVER_TARGET_FRAMEWORK: net48
 
 jobs:
-  build-connect-helper:
+  build:
     if: |
       !failure()
       && !cancelled()
@@ -24,11 +24,15 @@ jobs:
         || github.event.pull_request.draft == false
       )
 
-    runs-on: ubuntu-latest
-    timeout-minutes: 3
+    runs-on: windows-latest
+    timeout-minutes: 5
+
+    env:
+      ZIP_DIR: ./zip/TRViS.LocalServers.BveTs
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/cache@v4
         with:
           path: ConnectHelper/node_modules
@@ -38,6 +42,10 @@ jobs:
 
       - name: yarn install
         run: yarn install --frozen-lockfile
+        working-directory: ./ConnectHelper
+
+      - name: yarn update-license
+        run: yarn update-license
         working-directory: ./ConnectHelper
 
       - name: yarn build
@@ -61,33 +69,7 @@ jobs:
           path: ./ConnectHelper/LICENSE-NODE.md
           retention-days: 3
 
-  build-bvets-server:
-    if: |
-      !failure()
-      && !cancelled()
-      && (
-        github.event_name != 'pull_request'
-        || github.event.pull_request.draft == false
-      )
-
-    runs-on: windows-latest
-    timeout-minutes: 5
-    needs:
-      - build-connect-helper
-
-    env:
-      ZIP_DIR: ./zip/TRViS.LocalServers.BveTs
-
-    steps:
-      - uses: actions/checkout@v4
-
       - uses: actions/setup-dotnet@v4
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: index.html
-          path: ./ConnectHelper/dist/index.html
-      - run: takeown /f .\ConnectHelper\dist\index.html
 
       - name: cache nuget packages
         uses: actions/cache@v4
