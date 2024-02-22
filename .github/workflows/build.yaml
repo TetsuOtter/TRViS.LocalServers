@@ -110,7 +110,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: TRViS.LocalServers.BveTs.zip
-          path: ${{ env.ZIP_DIR }}/TRViS.LocalServers.BveTs.zip
+          path: TRViS.LocalServers.BveTs.zip
 
       - name: Zip release files with 7z
         run: 7z a -t7z TRViS.LocalServers.BveTs.7z ${{ env.ZIP_DIR }}
@@ -118,4 +118,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: TRViS.LocalServers.BveTs.7z
-          path: ${{ env.ZIP_DIR }}/TRViS.LocalServers.BveTs.7z
+          path: TRViS.LocalServers.BveTs.7z
