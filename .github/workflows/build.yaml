@@ -87,7 +87,7 @@ jobs:
         with:
           name: index.html
           path: ./ConnectHelper/dist/index.html
-      - run: ls -l ./ConnectHelper/dist/index.html
+      - run: takeown ./ConnectHelper/dist/index.html
 
       - name: Install dependencies
         run: dotnet restore ${{ env.BVETS_SERVER_CSPROJ_PATH }}
