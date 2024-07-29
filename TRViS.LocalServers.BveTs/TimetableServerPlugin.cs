@@ -28,6 +28,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 	const string JSON_FILE_MIME = "application/json";
 	const string TIMETABLE_FILE_MIME = JSON_FILE_MIME;
 	const string TIMETABLE_FILE_NAME = "timetable.json";
+	const string SYNC_SERVICE_PATH = "sync";
 	const string QR_HTML_FILE_NAME = "index.html";
 	const string SCENARIO_INFO_FILE_NAME = "scenario-info.json";
 	const string WORK_GROUP_ID = "1";
@@ -105,6 +106,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			LISTENER_PATH or (LISTENER_PATH + QR_HTML_FILE_NAME) => true,
 			LISTENER_PATH + TIMETABLE_FILE_NAME => true,
 			LISTENER_PATH + SCENARIO_INFO_FILE_NAME => true,
+			LISTENER_PATH + SYNC_SERVICE_PATH => true,
 			_ => false
 		};
 
@@ -125,6 +127,15 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 
 		if (pathWithoutQueryOrHash is LISTENER_PATH or (LISTENER_PATH + QR_HTML_FILE_NAME))
 			return await GenResponseFromEmbeddedResourceAsync(QR_HTML_FILE_NAME, "text/html", additionalHeaders);
+		else if (pathWithoutQueryOrHash is LISTENER_PATH + SYNC_SERVICE_PATH)
+		{
+			return new(
+				status: "200 OK",
+				ContentType: JSON_FILE_MIME,
+				additionalHeaders: additionalHeaders,
+				body: GenerateSyncResponse()
+			);
+		}
 
 		if (!BveHacker.IsScenarioCreated)
 		{
@@ -341,6 +352,23 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		);
 
 		return JsonSerializer.SerializeToUtf8Bytes<WorkGroupData[]>([trvisWorkGroupData], GenerateJson_JsonSerializerOptions);
+	}
+
+	byte[] GenerateSyncResponse()
+	{
+		SyncedData syncedData = BveHacker.IsScenarioCreated
+			? new(
+				Location_m: BveHacker.Scenario.LocationManager.Location,
+				Time_ms: BveHacker.Scenario.TimeManager.TimeMilliseconds,
+				CanStart: true
+			)
+			: new(
+				Location_m: null,
+				Time_ms: null,
+				CanStart: false
+			);
+
+		return JsonSerializer.SerializeToUtf8Bytes(syncedData, GenerateJson_JsonSerializerOptions);
 	}
 
 	private static async Task<HttpResponse> GenResponseFromEmbeddedResourceAsync(string fileName, string contentType, NameValueCollection additionalHeaders)
