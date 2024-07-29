@@ -252,6 +252,11 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		bool isAllStationDoorNotOpenExceptLastStation = stationArray
 			.Take(stationArray.Length - 1)
 			.All(station => station.Pass || station.DoorSide == 0);
+		double motorCarCount = scenario.Vehicle.Dynamics.MotorCar.Count;
+		double trailerCarCount = scenario.Vehicle.Dynamics.TrailerCar.Count;
+		double trainLength = (motorCarCount + trailerCarCount) * scenario.Vehicle.Dynamics.CarLength;
+		// 多少の誤差を考慮し、編成が入りきるよりも少し長めに設定
+		double onStationDetectRadius_m = (trainLength / 2) + 50;
 		for (int i = 0; i < trvisTimetableRows.Length; i++)
 		{
 			int indexOfTimetableInstance = i + 1;
@@ -279,10 +284,10 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			trvisTimetableRows[i] = new TimetableRowData(
 				Id: $"{TRAIN_ID}-{i}",
 				StationName: staName,
-				Location_m: station.Location,
+				Location_m: station.Location - trainLength / 2,
 				Longitude_deg: null,
 				Latitude_deg: null,
-				OnStationDetectRadius_m: null,
+				OnStationDetectRadius_m: onStationDetectRadius_m,
 				FullName: timeTable.NameTexts[indexOfTimetableInstance],
 				RecordType: null,
 				TrackName: null,
@@ -303,8 +308,6 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			);
 		}
 
-		double motorCarCount = scenario.Vehicle.Dynamics.MotorCar.Count;
-		double trailerCarCount = scenario.Vehicle.Dynamics.TrailerCar.Count;
 		string motorCarCountStr = 0 < motorCarCount ? $"{motorCarCount:#.#}M" : string.Empty;
 		string trailerCarCountStr = 0 < trailerCarCount ? $"{trailerCarCount:#.#}T" : string.Empty;
 		TrainData trvisTrainData = new(
