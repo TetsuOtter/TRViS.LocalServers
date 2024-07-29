@@ -21,7 +21,7 @@ using TRViS.JsonModels;
 
 namespace TRViS.LocalServers.BveTs;
 
-[PluginType(PluginType.Extension)]
+[Plugin(PluginType.Extension)]
 public partial class TimetableServerPlugin : PluginBase, IExtension
 {
 	const string LISTENER_PATH = "/";
@@ -30,6 +30,9 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 	const string TIMETABLE_FILE_NAME = "timetable.json";
 	const string QR_HTML_FILE_NAME = "index.html";
 	const string SCENARIO_INFO_FILE_NAME = "scenario-info.json";
+	const string WORK_GROUP_ID = "1";
+	const string WORK_ID = "1-1";
+	const string TRAIN_ID = "1-1-1";
 	const int LISTENER_PORT = 58600;
 	const int PORT_RETRY_MAX = 10;
 	readonly IPAddress[] localAddressList;
@@ -261,8 +264,9 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			bool isLastStop = station.IsTerminal;
 			bool isPass = station.Pass;
 			string arriveStr = timeTable.ArrivalTimeTexts[indexOfTimetableInstance];
-			string departureStr = timeTable.DepertureTimeTexts[indexOfTimetableInstance];
+			string departureStr = timeTable.DepartureTimeTexts[indexOfTimetableInstance];
 			trvisTimetableRows[i] = new TimetableRowData(
+				Id: $"{TRAIN_ID}-{i}",
 				StationName: staName,
 				Location_m: station.Location,
 				Longitude_deg: null,
@@ -293,6 +297,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		string motorCarCountStr = 0 < motorCarCount ? $"{motorCarCount:#.#}M" : string.Empty;
 		string trailerCarCountStr = 0 < trailerCarCount ? $"{trailerCarCount:#.#}T" : string.Empty;
 		TrainData trvisTrainData = new(
+			Id: TRAIN_ID,
 			TrainNumber: scenarioInfo.Title,
 			MaxSpeed: null,
 			SpeedType: null,
@@ -316,6 +321,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		);
 
 		WorkData trvisWorkData = new(
+			Id: WORK_ID,
 			Name: scenarioInfo.RouteTitle,
 			AffectDate: null,
 			AffixContentType: null,
@@ -328,6 +334,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		);
 
 		WorkGroupData trvisWorkGroupData = new(
+			Id: WORK_GROUP_ID,
 			Name: "TRViS Local Servers (AtsEX Extension)",
 			DBVersion: 1,
 			Works: [trvisWorkData]
