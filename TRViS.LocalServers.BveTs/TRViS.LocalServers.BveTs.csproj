@@ -23,25 +23,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference
-			Include="AtsEx.PluginHost"
-			Version="1.0.0-rc3">
+		<PackageReference Include="AtsEx.PluginHost" Version="1.0.0-rc9">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference
-			Include="AtsEx.CoreExtensions"
-			Version="1.0.0-rc1">
+		<PackageReference Include="AtsEx.CoreExtensions" Version="1.0.0-rc9">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference
-			Include="TR.SimpleHttpServer"
-			Version="1.0.0.1" />
-		<PackageReference
-			Include="TRViS.JsonModels"
-			Version="1.0.0" />
-		<PackageReference
-			Include="System.Text.Json"
-			Version="8.0.0" />
+		<PackageReference Include="TR.SimpleHttpServer" Version="1.0.0.1" />
+		<PackageReference Include="TRViS.JsonModels" Version="1.0.2" />
+		<PackageReference Include="System.Text.Json" Version="8.0.4" />
 	</ItemGroup>
 
 </Project>

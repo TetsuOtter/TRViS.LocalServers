@@ -21,15 +21,19 @@ using TRViS.JsonModels;
 
 namespace TRViS.LocalServers.BveTs;
 
-[PluginType(PluginType.Extension)]
+[Plugin(PluginType.Extension)]
 public partial class TimetableServerPlugin : PluginBase, IExtension
 {
 	const string LISTENER_PATH = "/";
 	const string JSON_FILE_MIME = "application/json";
 	const string TIMETABLE_FILE_MIME = JSON_FILE_MIME;
 	const string TIMETABLE_FILE_NAME = "timetable.json";
+	const string SYNC_SERVICE_PATH = "sync";
 	const string QR_HTML_FILE_NAME = "index.html";
 	const string SCENARIO_INFO_FILE_NAME = "scenario-info.json";
+	const string WORK_GROUP_ID = "1";
+	const string WORK_ID = "1-1";
+	const string TRAIN_ID = "1-1-1";
 	const int LISTENER_PORT = 58600;
 	const int PORT_RETRY_MAX = 10;
 	readonly IPAddress[] localAddressList;
@@ -102,6 +106,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			LISTENER_PATH or (LISTENER_PATH + QR_HTML_FILE_NAME) => true,
 			LISTENER_PATH + TIMETABLE_FILE_NAME => true,
 			LISTENER_PATH + SCENARIO_INFO_FILE_NAME => true,
+			LISTENER_PATH + SYNC_SERVICE_PATH => true,
 			_ => false
 		};
 
@@ -122,6 +127,15 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 
 		if (pathWithoutQueryOrHash is LISTENER_PATH or (LISTENER_PATH + QR_HTML_FILE_NAME))
 			return await GenResponseFromEmbeddedResourceAsync(QR_HTML_FILE_NAME, "text/html", additionalHeaders);
+		else if (pathWithoutQueryOrHash is LISTENER_PATH + SYNC_SERVICE_PATH)
+		{
+			return new(
+				status: "200 OK",
+				ContentType: JSON_FILE_MIME,
+				additionalHeaders: additionalHeaders,
+				body: GenerateSyncResponse()
+			);
+		}
 
 		if (!BveHacker.IsScenarioCreated)
 		{
@@ -238,6 +252,11 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		bool isAllStationDoorNotOpenExceptLastStation = stationArray
 			.Take(stationArray.Length - 1)
 			.All(station => station.Pass || station.DoorSide == 0);
+		double motorCarCount = scenario.Vehicle.Dynamics.MotorCar.Count;
+		double trailerCarCount = scenario.Vehicle.Dynamics.TrailerCar.Count;
+		double trainLength = (motorCarCount + trailerCarCount) * scenario.Vehicle.Dynamics.CarLength;
+		// 多少の誤差を考慮し、編成が入りきるよりも少し長めに設定
+		double onStationDetectRadius_m = (trainLength / 2) + 50;
 		for (int i = 0; i < trvisTimetableRows.Length; i++)
 		{
 			int indexOfTimetableInstance = i + 1;
@@ -261,13 +280,14 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			bool isLastStop = station.IsTerminal;
 			bool isPass = station.Pass;
 			string arriveStr = timeTable.ArrivalTimeTexts[indexOfTimetableInstance];
-			string departureStr = timeTable.DepertureTimeTexts[indexOfTimetableInstance];
+			string departureStr = timeTable.DepartureTimeTexts[indexOfTimetableInstance];
 			trvisTimetableRows[i] = new TimetableRowData(
+				Id: $"{TRAIN_ID}-{i}",
 				StationName: staName,
-				Location_m: station.Location,
+				Location_m: station.Location - trainLength / 2,
 				Longitude_deg: null,
 				Latitude_deg: null,
-				OnStationDetectRadius_m: null,
+				OnStationDetectRadius_m: onStationDetectRadius_m,
 				FullName: timeTable.NameTexts[indexOfTimetableInstance],
 				RecordType: null,
 				TrackName: null,
@@ -288,11 +308,10 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 			);
 		}
 
-		double motorCarCount = scenario.Vehicle.Dynamics.MotorCar.Count;
-		double trailerCarCount = scenario.Vehicle.Dynamics.TrailerCar.Count;
 		string motorCarCountStr = 0 < motorCarCount ? $"{motorCarCount:#.#}M" : string.Empty;
 		string trailerCarCountStr = 0 < trailerCarCount ? $"{trailerCarCount:#.#}T" : string.Empty;
 		TrainData trvisTrainData = new(
+			Id: TRAIN_ID,
 			TrainNumber: scenarioInfo.Title,
 			MaxSpeed: null,
 			SpeedType: null,
@@ -316,6 +335,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		);
 
 		WorkData trvisWorkData = new(
+			Id: WORK_ID,
 			Name: scenarioInfo.RouteTitle,
 			AffectDate: null,
 			AffixContentType: null,
@@ -328,12 +348,30 @@ public partial class TimetableServerPlugin : PluginBase, IExtension
 		);
 
 		WorkGroupData trvisWorkGroupData = new(
+			Id: WORK_GROUP_ID,
 			Name: "TRViS Local Servers (AtsEX Extension)",
 			DBVersion: 1,
 			Works: [trvisWorkData]
 		);
 
 		return JsonSerializer.SerializeToUtf8Bytes<WorkGroupData[]>([trvisWorkGroupData], GenerateJson_JsonSerializerOptions);
+	}
+
+	byte[] GenerateSyncResponse()
+	{
+		SyncedData syncedData = BveHacker.IsScenarioCreated
+			? new(
+				Location_m: BveHacker.Scenario.LocationManager.Location,
+				Time_ms: BveHacker.Scenario.TimeManager.TimeMilliseconds,
+				CanStart: true
+			)
+			: new(
+				Location_m: null,
+				Time_ms: null,
+				CanStart: false
+			);
+
+		return JsonSerializer.SerializeToUtf8Bytes(syncedData, GenerateJson_JsonSerializerOptions);
 	}
 
 	private static async Task<HttpResponse> GenResponseFromEmbeddedResourceAsync(string fileName, string contentType, NameValueCollection additionalHeaders)

@@ -4,22 +4,22 @@
 │     ├─ VendorName: Sindre Sorhus
 │     └─ VendorUrl: https://sindresorhus.com
 ├─ Apache-2.0
-│  ├─ @humanwhocodes/config-array@0.11.13
+│  ├─ @humanwhocodes/config-array@0.11.14
 │  │  ├─ URL: git+https://github.com/humanwhocodes/config-array.git
 │  │  ├─ VendorName: Nicholas C. Zakas
 │  │  └─ VendorUrl: https://github.com/humanwhocodes/config-array#readme
 │  ├─ @humanwhocodes/module-importer@1.0.1
 │  │  ├─ URL: git+https://github.com/humanwhocodes/module-importer.git
 │  │  └─ VendorName: Nicholas C. Zaks
-│  ├─ @swc/core@1.3.100
+│  ├─ @swc/core@1.7.3
 │  │  ├─ URL: git+https://github.com/swc-project/swc.git
 │  │  ├─ VendorName: 강동윤
 │  │  └─ VendorUrl: https://swc.rs/
-│  ├─ @swc/counter@0.1.2
-│  │  ├─ URL: git+https://github.com/swc-project/swc.git
+│  ├─ @swc/counter@0.1.3
+│  │  ├─ URL: git+https://github.com/swc-project/pkgs.git
 │  │  ├─ VendorName: 강동윤
 │  │  └─ VendorUrl: https://swc.rs/
-│  ├─ @swc/types@0.1.5
+│  ├─ @swc/types@0.1.12
 │  │  ├─ URL: git+https://github.com/swc-project/swc.git
 │  │  ├─ VendorName: 강동윤
 │  │  └─ VendorUrl: https://swc.rs/
@@ -33,19 +33,19 @@
 │  │  ├─ URL: https://github.com/eslint/eslint-visitor-keys.git
 │  │  ├─ VendorName: Toru Nagashima
 │  │  └─ VendorUrl: https://github.com/eslint/eslint-visitor-keys#readme
-│  └─ typescript@5.3.3
+│  └─ typescript@5.5.4
 │     ├─ URL: https://github.com/Microsoft/TypeScript.git
 │     ├─ VendorName: Microsoft Corp.
 │     └─ VendorUrl: https://www.typescriptlang.org/
 ├─ Apache-2.0 AND MIT
-│  └─ @swc/core-darwin-arm64@1.3.100
+│  └─ @swc/core-darwin-arm64@1.7.3
 │     ├─ URL: git+https://github.com/swc-project/swc.git
 │     ├─ VendorName: 강동윤
 │     └─ VendorUrl: https://swc.rs/
 ├─ BSD-2-Clause
-│  ├─ @typescript-eslint/parser@6.13.2
+│  ├─ @typescript-eslint/parser@6.21.0
 │  │  └─ URL: https://github.com/typescript-eslint/typescript-eslint.git
-│  ├─ @typescript-eslint/typescript-estree@6.13.2
+│  ├─ @typescript-eslint/typescript-estree@6.21.0
 │  │  └─ URL: https://github.com/typescript-eslint/typescript-eslint.git
 │  ├─ eslint-scope@7.2.2
 │  │  ├─ URL: https://github.com/eslint/eslint-scope.git
@@ -68,15 +68,15 @@
 │     ├─ VendorName: Gary Court
 │     └─ VendorUrl: https://github.com/garycourt/uri-js
 ├─ BSD-3-Clause
-│  ├─ @humanwhocodes/object-schema@2.0.1
+│  ├─ @humanwhocodes/object-schema@2.0.3
 │  │  ├─ URL: git+https://github.com/humanwhocodes/object-schema.git
 │  │  ├─ VendorName: Nicholas C. Zakas
 │  │  └─ VendorUrl: https://github.com/humanwhocodes/object-schema#readme
-│  ├─ esquery@1.5.0
+│  ├─ esquery@1.6.0
 │  │  ├─ URL: https://github.com/estools/esquery.git
 │  │  ├─ VendorName: Joel Feenstra
 │  │  └─ VendorUrl: https://github.com/estools/esquery/
-│  └─ source-map-js@1.0.2
+│  └─ source-map-js@1.2.0
 │     ├─ URL: https://github.com/7rulnik/source-map-js.git
 │     ├─ VendorName: Valentin 7rulnik Semirulnik
 │     └─ VendorUrl: https://github.com/7rulnik/source-map-js
@@ -88,11 +88,11 @@
 │  ├─ cliui@6.0.0
 │  │  ├─ URL: http://github.com/yargs/cliui.git
 │  │  └─ VendorName: Ben Coe
-│  ├─ fastq@1.15.0
+│  ├─ fastq@1.17.1
 │  │  ├─ URL: git+https://github.com/mcollina/fastq.git
 │  │  ├─ VendorName: Matteo Collina
 │  │  └─ VendorUrl: https://github.com/mcollina/fastq#readme
-│  ├─ flatted@3.2.9
+│  ├─ flatted@3.3.1
 │  │  ├─ URL: git+https://github.com/WebReflection/flatted.git
 │  │  ├─ VendorName: Andrea Giammarchi
 │  │  └─ VendorUrl: https://github.com/WebReflection/flatted#readme
@@ -126,10 +126,11 @@
 │  │  ├─ URL: git+https://github.com/isaacs/isexe.git
 │  │  ├─ VendorName: Isaac Z. Schlueter
 │  │  └─ VendorUrl: https://github.com/isaacs/isexe#readme
-│  ├─ lru-cache@6.0.0
-│  │  ├─ URL: git://github.com/isaacs/node-lru-cache.git
-│  │  └─ VendorName: Isaac Z. Schlueter
 │  ├─ minimatch@3.1.2
+│  │  ├─ URL: git://github.com/isaacs/minimatch.git
+│  │  ├─ VendorName: Isaac Z. Schlueter
+│  │  └─ VendorUrl: http://blog.izs.me
+│  ├─ minimatch@9.0.3
 │  │  ├─ URL: git://github.com/isaacs/minimatch.git
 │  │  ├─ VendorName: Isaac Z. Schlueter
 │  │  └─ VendorUrl: http://blog.izs.me
@@ -137,7 +138,7 @@
 │  │  ├─ URL: git://github.com/isaacs/once
 │  │  ├─ VendorName: Isaac Z. Schlueter
 │  │  └─ VendorUrl: http://blog.izs.me/
-│  ├─ picocolors@1.0.0
+│  ├─ picocolors@1.0.1
 │  │  ├─ URL: https://github.com/alexeyraspopov/picocolors.git
 │  │  └─ VendorName: Alexey Raspopov
 │  ├─ require-main-filename@2.0.0
@@ -151,8 +152,8 @@
 │  ├─ semver@6.3.1
 │  │  ├─ URL: https://github.com/npm/node-semver.git
 │  │  └─ VendorName: GitHub Inc.
-│  ├─ semver@7.5.4
-│  │  ├─ URL: https://github.com/npm/node-semver.git
+│  ├─ semver@7.6.3
+│  │  ├─ URL: git+https://github.com/npm/node-semver.git
 │  │  └─ VendorName: GitHub Inc.
 │  ├─ set-blocking@2.0.0
 │  │  ├─ URL: git+https://github.com/yargs/set-blocking.git
@@ -174,29 +175,21 @@
 │  │  ├─ URL: git@github.com:yargs/y18n.git
 │  │  ├─ VendorName: Ben Coe
 │  │  └─ VendorUrl: https://github.com/yargs/y18n
-│  ├─ yallist@4.0.0
-│  │  ├─ URL: git+https://github.com/isaacs/yallist.git
-│  │  ├─ VendorName: Isaac Z. Schlueter
-│  │  └─ VendorUrl: http://blog.izs.me/
 │  └─ yargs-parser@18.1.3
 │     ├─ URL: https://github.com/yargs/yargs-parser.git
 │     └─ VendorName: Ben Coe
 ├─ MIT
-│  ├─ @aashutoshrathi/word-wrap@1.2.6
-│  │  ├─ URL: git+https://github.com/aashutoshrathi/word-wrap.git
-│  │  ├─ VendorName: Jon Schlinkert
-│  │  └─ VendorUrl: https://github.com/aashutoshrathi/word-wrap
-│  ├─ @babel/runtime@7.23.5
+│  ├─ @babel/runtime@7.25.0
 │  │  ├─ URL: https://github.com/babel/babel.git
 │  │  ├─ VendorName: The Babel Team
 │  │  └─ VendorUrl: https://babel.dev/docs/en/next/babel-runtime
-│  ├─ @esbuild/darwin-arm64@0.19.9
-│  │  └─ URL: https://github.com/evanw/esbuild
+│  ├─ @esbuild/darwin-arm64@0.21.5
+│  │  └─ URL: git+https://github.com/evanw/esbuild.git
 │  ├─ @eslint-community/eslint-utils@4.4.0
 │  │  ├─ URL: https://github.com/eslint-community/eslint-utils
 │  │  ├─ VendorName: Toru Nagashima
 │  │  └─ VendorUrl: https://github.com/eslint-community/eslint-utils#readme
-│  ├─ @eslint-community/regexpp@4.10.0
+│  ├─ @eslint-community/regexpp@4.11.0
 │  │  ├─ URL: https://github.com/eslint-community/regexpp
 │  │  ├─ VendorName: Toru Nagashima
 │  │  └─ VendorUrl: https://github.com/eslint-community/regexpp#readme
@@ -204,7 +197,7 @@
 │  │  ├─ URL: https://github.com/eslint/eslintrc.git
 │  │  ├─ VendorName: Nicholas C. Zakas
 │  │  └─ VendorUrl: https://github.com/eslint/eslintrc#readme
-│  ├─ @eslint/js@8.55.0
+│  ├─ @eslint/js@8.57.0
 │  │  ├─ URL: https://github.com/eslint/eslint.git
 │  │  └─ VendorUrl: https://eslint.org/
 │  ├─ @nodelib/fs.scandir@2.1.5
@@ -213,55 +206,55 @@
 │  │  └─ URL: https://github.com/nodelib/nodelib/tree/master/packages/fs/fs.stat
 │  ├─ @nodelib/fs.walk@1.2.8
 │  │  └─ URL: https://github.com/nodelib/nodelib/tree/master/packages/fs/fs.walk
-│  ├─ @rollup/rollup-darwin-arm64@4.7.0
+│  ├─ @rollup/rollup-darwin-arm64@4.19.1
 │  │  ├─ URL: https://github.com/rollup/rollup.git
 │  │  ├─ VendorName: Lukas Taegert-Atkinson
 │  │  └─ VendorUrl: https://rollupjs.org/
+│  ├─ @types/estree@1.0.5
+│  │  ├─ URL: https://github.com/DefinitelyTyped/DefinitelyTyped.git
+│  │  └─ VendorUrl: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/estree
 │  ├─ @types/json-schema@7.0.15
 │  │  ├─ URL: https://github.com/DefinitelyTyped/DefinitelyTyped.git
 │  │  └─ VendorUrl: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/json-schema
-│  ├─ @types/node@20.10.4
+│  ├─ @types/node@22.0.0
 │  │  ├─ URL: https://github.com/DefinitelyTyped/DefinitelyTyped.git
 │  │  └─ VendorUrl: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/node
-│  ├─ @types/prop-types@15.7.11
+│  ├─ @types/prop-types@15.7.12
 │  │  ├─ URL: https://github.com/DefinitelyTyped/DefinitelyTyped.git
 │  │  └─ VendorUrl: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/prop-types
 │  ├─ @types/qrcode@1.5.5
 │  │  ├─ URL: https://github.com/DefinitelyTyped/DefinitelyTyped.git
 │  │  └─ VendorUrl: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/qrcode
-│  ├─ @types/react-dom@18.2.17
+│  ├─ @types/react-dom@18.3.0
 │  │  ├─ URL: https://github.com/DefinitelyTyped/DefinitelyTyped.git
 │  │  └─ VendorUrl: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-dom
-│  ├─ @types/react@18.2.43
+│  ├─ @types/react@18.3.3
 │  │  ├─ URL: https://github.com/DefinitelyTyped/DefinitelyTyped.git
 │  │  └─ VendorUrl: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react
-│  ├─ @types/scheduler@0.16.8
-│  │  ├─ URL: https://github.com/DefinitelyTyped/DefinitelyTyped.git
-│  │  └─ VendorUrl: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/scheduler
-│  ├─ @types/semver@7.5.6
+│  ├─ @types/semver@7.5.8
 │  │  ├─ URL: https://github.com/DefinitelyTyped/DefinitelyTyped.git
 │  │  └─ VendorUrl: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/semver
-│  ├─ @typescript-eslint/eslint-plugin@6.13.2
+│  ├─ @typescript-eslint/eslint-plugin@6.21.0
 │  │  └─ URL: https://github.com/typescript-eslint/typescript-eslint.git
-│  ├─ @typescript-eslint/scope-manager@6.13.2
+│  ├─ @typescript-eslint/scope-manager@6.21.0
 │  │  └─ URL: https://github.com/typescript-eslint/typescript-eslint.git
-│  ├─ @typescript-eslint/type-utils@6.13.2
+│  ├─ @typescript-eslint/type-utils@6.21.0
 │  │  └─ URL: https://github.com/typescript-eslint/typescript-eslint.git
-│  ├─ @typescript-eslint/types@6.13.2
+│  ├─ @typescript-eslint/types@6.21.0
 │  │  └─ URL: https://github.com/typescript-eslint/typescript-eslint.git
-│  ├─ @typescript-eslint/utils@6.13.2
+│  ├─ @typescript-eslint/utils@6.21.0
 │  │  └─ URL: https://github.com/typescript-eslint/typescript-eslint.git
-│  ├─ @typescript-eslint/visitor-keys@6.13.2
+│  ├─ @typescript-eslint/visitor-keys@6.21.0
 │  │  └─ URL: https://github.com/typescript-eslint/typescript-eslint.git
-│  ├─ @vitejs/plugin-react-swc@3.5.0
+│  ├─ @vitejs/plugin-react-swc@3.7.0
 │  │  ├─ URL: https://github.com/vitejs/vite-plugin-react-swc.git
 │  │  ├─ VendorName: Arnaud Barré
 │  │  └─ VendorUrl: https://github.com/ArnaudBarre
 │  ├─ acorn-jsx@5.3.2
 │  │  ├─ URL: https://github.com/acornjs/acorn-jsx
 │  │  └─ VendorUrl: https://github.com/acornjs/acorn-jsx
-│  ├─ acorn@8.11.2
-│  │  ├─ URL: https://github.com/acornjs/acorn.git
+│  ├─ acorn@8.12.1
+│  │  ├─ URL: git+https://github.com/acornjs/acorn.git
 │  │  └─ VendorUrl: https://github.com/acornjs/acorn
 │  ├─ ajv@6.12.6
 │  │  ├─ URL: https://github.com/ajv-validator/ajv.git
@@ -275,11 +268,11 @@
 │  │  ├─ URL: https://github.com/chalk/ansi-styles.git
 │  │  ├─ VendorName: Sindre Sorhus
 │  │  └─ VendorUrl: sindresorhus.com
-│  ├─ array-buffer-byte-length@1.0.0
+│  ├─ array-buffer-byte-length@1.0.1
 │  │  ├─ URL: git+https://github.com/inspect-js/array-buffer-byte-length.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/array-buffer-byte-length#readme
-│  ├─ array-includes@3.1.7
+│  ├─ array-includes@3.1.8
 │  │  ├─ URL: git://github.com/es-shims/array-includes.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: http://ljharb.codes
@@ -287,6 +280,10 @@
 │  │  ├─ URL: https://github.com/sindresorhus/array-union.git
 │  │  ├─ VendorName: Sindre Sorhus
 │  │  └─ VendorUrl: sindresorhus.com
+│  ├─ array.prototype.findlast@1.2.5
+│  │  ├─ URL: git+https://github.com/es-shims/Array.prototype.findLast.git
+│  │  ├─ VendorName: Jordan Harband
+│  │  └─ VendorUrl: https://github.com/es-shims/Array.prototype.findLast#readme
 │  ├─ array.prototype.flat@1.3.2
 │  │  ├─ URL: git://github.com/es-shims/Array.prototype.flat.git
 │  │  ├─ VendorName: Jordan Harband
@@ -295,19 +292,15 @@
 │  │  ├─ URL: git://github.com/es-shims/Array.prototype.flatMap.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: http://ljharb.codes
-│  ├─ array.prototype.tosorted@1.1.2
+│  ├─ array.prototype.tosorted@1.1.4
 │  │  ├─ URL: git+https://github.com/es-shims/Array.prototype.toSorted.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/es-shims/Array.prototype.toSorted#readme
-│  ├─ arraybuffer.prototype.slice@1.0.2
+│  ├─ arraybuffer.prototype.slice@1.0.3
 │  │  ├─ URL: git+https://github.com/es-shims/ArrayBuffer.prototype.slice.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/es-shims/ArrayBuffer.prototype.slice#readme
-│  ├─ asynciterator.prototype@1.0.0
-│  │  ├─ URL: git+https://github.com/ljharb/AsyncIterator.prototype.git
-│  │  ├─ VendorName: Jordan Harband
-│  │  └─ VendorUrl: https://github.com/ljharb/AsyncIterator.prototype#readme
-│  ├─ available-typed-arrays@1.0.5
+│  ├─ available-typed-arrays@1.0.7
 │  │  ├─ URL: git+https://github.com/inspect-js/available-typed-arrays.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/available-typed-arrays#readme
@@ -319,11 +312,15 @@
 │  │  ├─ URL: git://github.com/juliangruber/brace-expansion.git
 │  │  ├─ VendorName: Julian Gruber
 │  │  └─ VendorUrl: https://github.com/juliangruber/brace-expansion
-│  ├─ braces@3.0.2
+│  ├─ brace-expansion@2.0.1
+│  │  ├─ URL: git://github.com/juliangruber/brace-expansion.git
+│  │  ├─ VendorName: Julian Gruber
+│  │  └─ VendorUrl: https://github.com/juliangruber/brace-expansion
+│  ├─ braces@3.0.3
 │  │  ├─ URL: https://github.com/micromatch/braces.git
 │  │  ├─ VendorName: Jon Schlinkert
 │  │  └─ VendorUrl: https://github.com/micromatch/braces
-│  ├─ call-bind@1.0.5
+│  ├─ call-bind@1.0.7
 │  │  ├─ URL: git+https://github.com/ljharb/call-bind.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/ljharb/call-bind#readme
@@ -355,9 +352,22 @@
 │  ├─ csstype@3.1.3
 │  │  ├─ URL: https://github.com/frenic/csstype
 │  │  └─ VendorName: Fredrik Nicol
-│  ├─ debug@4.3.4
+│  ├─ data-view-buffer@1.0.1
+│  │  ├─ URL: git+https://github.com/ljharb/data-view-buffer.git
+│  │  ├─ VendorName: Jordan Harband
+│  │  └─ VendorUrl: https://github.com/ljharb/data-view-buffer#readme
+│  ├─ data-view-byte-length@1.0.1
+│  │  ├─ URL: git+https://github.com/ljharb/data-view-byte-length.git
+│  │  ├─ VendorName: Jordan Harband
+│  │  └─ VendorUrl: https://github.com/ljharb/data-view-byte-length#readme
+│  ├─ data-view-byte-offset@1.0.0
+│  │  ├─ URL: git+https://github.com/ljharb/data-view-byte-offset.git
+│  │  ├─ VendorName: Jordan Harband
+│  │  └─ VendorUrl: https://github.com/ljharb/data-view-byte-offset#readme
+│  ├─ debug@4.3.6
 │  │  ├─ URL: git://github.com/debug-js/debug.git
-│  │  └─ VendorName: Josh Junon
+│  │  ├─ VendorName: Josh Junon
+│  │  └─ VendorUrl: https://github.com/qix-
 │  ├─ decamelize@1.2.0
 │  │  ├─ URL: https://github.com/sindresorhus/decamelize.git
 │  │  ├─ VendorName: Sindre Sorhus
@@ -366,7 +376,7 @@
 │  │  ├─ URL: http://github.com/thlorenz/deep-is.git
 │  │  ├─ VendorName: Thorsten Lorenz
 │  │  └─ VendorUrl: http://thlorenz.com
-│  ├─ define-data-property@1.1.1
+│  ├─ define-data-property@1.1.4
 │  │  ├─ URL: git+https://github.com/ljharb/define-data-property.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/ljharb/define-data-property#readme
@@ -386,15 +396,27 @@
 │  │  └─ VendorUrl: https://mths.be/emoji-regex
 │  ├─ encode-utf8@1.0.3
 │  │  └─ URL: https://github.com/LinusU/encode-utf8.git
-│  ├─ es-abstract@1.22.3
+│  ├─ es-abstract@1.23.3
 │  │  ├─ URL: git://github.com/ljharb/es-abstract.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: http://ljharb.codes
-│  ├─ es-iterator-helpers@1.0.15
+│  ├─ es-define-property@1.0.0
+│  │  ├─ URL: git+https://github.com/ljharb/es-define-property.git
+│  │  ├─ VendorName: Jordan Harband
+│  │  └─ VendorUrl: https://github.com/ljharb/es-define-property#readme
+│  ├─ es-errors@1.3.0
+│  │  ├─ URL: git+https://github.com/ljharb/es-errors.git
+│  │  ├─ VendorName: Jordan Harband
+│  │  └─ VendorUrl: https://github.com/ljharb/es-errors#readme
+│  ├─ es-iterator-helpers@1.0.19
 │  │  ├─ URL: git+https://github.com/es-shims/iterator-helpers.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/es-shims/iterator-helpers#readme
-│  ├─ es-set-tostringtag@2.0.2
+│  ├─ es-object-atoms@1.0.0
+│  │  ├─ URL: git+https://github.com/ljharb/es-object-atoms.git
+│  │  ├─ VendorName: Jordan Harband
+│  │  └─ VendorUrl: https://github.com/ljharb/es-object-atoms#readme
+│  ├─ es-set-tostringtag@2.0.3
 │  │  ├─ URL: git+https://github.com/es-shims/es-set-tostringtag.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/es-shims/es-set-tostringtag#readme
@@ -405,8 +427,8 @@
 │  ├─ es-to-primitive@1.2.1
 │  │  ├─ URL: git://github.com/ljharb/es-to-primitive.git
 │  │  └─ VendorName: Jordan Harband
-│  ├─ esbuild@0.19.9
-│  │  └─ URL: https://github.com/evanw/esbuild
+│  ├─ esbuild@0.21.5
+│  │  └─ URL: git+https://github.com/evanw/esbuild.git
 │  ├─ escape-string-regexp@4.0.0
 │  │  ├─ URL: https://github.com/sindresorhus/escape-string-regexp.git
 │  │  ├─ VendorName: Sindre Sorhus
@@ -414,18 +436,18 @@
 │  ├─ eslint-config-prettier@9.1.0
 │  │  ├─ URL: https://github.com/prettier/eslint-config-prettier.git
 │  │  └─ VendorName: Simon Lydell
-│  ├─ eslint-plugin-react-hooks@4.6.0
+│  ├─ eslint-plugin-react-hooks@4.6.2
 │  │  ├─ URL: https://github.com/facebook/react.git
 │  │  └─ VendorUrl: https://reactjs.org/
-│  ├─ eslint-plugin-react-refresh@0.4.5
+│  ├─ eslint-plugin-react-refresh@0.4.9
 │  │  ├─ URL: https://github.com/ArnaudBarre/eslint-plugin-react-refresh.git
 │  │  ├─ VendorName: Arnaud Barré
 │  │  └─ VendorUrl: https://github.com/ArnaudBarre
-│  ├─ eslint-plugin-react@7.33.2
+│  ├─ eslint-plugin-react@7.35.0
 │  │  ├─ URL: https://github.com/jsx-eslint/eslint-plugin-react
 │  │  ├─ VendorName: Yannick Croissant
 │  │  └─ VendorUrl: https://github.com/jsx-eslint/eslint-plugin-react
-│  ├─ eslint@8.55.0
+│  ├─ eslint@8.57.0
 │  │  ├─ URL: https://github.com/eslint/eslint.git
 │  │  ├─ VendorName: Nicholas C. Zakas
 │  │  └─ VendorUrl: https://eslint.org/
@@ -449,7 +471,7 @@
 │  │  ├─ URL: https://github.com/royriojas/file-entry-cache.git
 │  │  ├─ VendorName: Roy Riojas
 │  │  └─ VendorUrl: http://royriojas.com
-│  ├─ fill-range@7.0.1
+│  ├─ fill-range@7.1.1
 │  │  ├─ URL: https://github.com/jonschlinkert/fill-range.git
 │  │  ├─ VendorName: Jon Schlinkert
 │  │  └─ VendorUrl: https://github.com/jonschlinkert/fill-range
@@ -483,19 +505,19 @@
 │  │  ├─ URL: git+https://github.com/inspect-js/functions-have-names.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/functions-have-names#readme
-│  ├─ get-intrinsic@1.2.2
+│  ├─ get-intrinsic@1.2.4
 │  │  ├─ URL: git+https://github.com/ljharb/get-intrinsic.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/ljharb/get-intrinsic#readme
-│  ├─ get-symbol-description@1.0.0
+│  ├─ get-symbol-description@1.0.2
 │  │  ├─ URL: git+https://github.com/inspect-js/get-symbol-description.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/get-symbol-description#readme
-│  ├─ globals@13.23.0
+│  ├─ globals@13.24.0
 │  │  ├─ URL: https://github.com/sindresorhus/globals.git
 │  │  ├─ VendorName: Sindre Sorhus
 │  │  └─ VendorUrl: https://sindresorhus.com
-│  ├─ globalthis@1.0.3
+│  ├─ globalthis@1.0.4
 │  │  ├─ URL: git://github.com/ljharb/System.global.git
 │  │  └─ VendorName: Jordan Harband
 │  ├─ globby@11.1.0
@@ -518,11 +540,11 @@
 │  │  ├─ URL: https://github.com/sindresorhus/has-flag.git
 │  │  ├─ VendorName: Sindre Sorhus
 │  │  └─ VendorUrl: sindresorhus.com
-│  ├─ has-property-descriptors@1.0.1
+│  ├─ has-property-descriptors@1.0.2
 │  │  ├─ URL: git+https://github.com/inspect-js/has-property-descriptors.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/has-property-descriptors#readme
-│  ├─ has-proto@1.0.1
+│  ├─ has-proto@1.0.3
 │  │  ├─ URL: git+https://github.com/inspect-js/has-proto.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/has-proto#readme
@@ -530,15 +552,15 @@
 │  │  ├─ URL: git://github.com/inspect-js/has-symbols.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/ljharb/has-symbols#readme
-│  ├─ has-tostringtag@1.0.0
+│  ├─ has-tostringtag@1.0.2
 │  │  ├─ URL: git+https://github.com/inspect-js/has-tostringtag.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/has-tostringtag#readme
-│  ├─ hasown@2.0.0
+│  ├─ hasown@2.0.2
 │  │  ├─ URL: git+https://github.com/inspect-js/hasOwn.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/hasOwn#readme
-│  ├─ ignore@5.3.0
+│  ├─ ignore@5.3.1
 │  │  ├─ URL: git@github.com:kaelzhang/node-ignore.git
 │  │  └─ VendorName: kael
 │  ├─ import-fresh@3.3.0
@@ -549,11 +571,11 @@
 │  │  ├─ URL: https://github.com/jensyt/imurmurhash-js
 │  │  ├─ VendorName: Jens Taylor
 │  │  └─ VendorUrl: https://github.com/jensyt/imurmurhash-js
-│  ├─ internal-slot@1.0.6
+│  ├─ internal-slot@1.0.7
 │  │  ├─ URL: git+https://github.com/ljharb/internal-slot.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/ljharb/internal-slot#readme
-│  ├─ is-array-buffer@3.0.2
+│  ├─ is-array-buffer@3.0.4
 │  │  ├─ URL: git+https://github.com/inspect-js/is-array-buffer.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/is-array-buffer#readme
@@ -571,10 +593,14 @@
 │  │  ├─ URL: git://github.com/inspect-js/is-callable.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: http://ljharb.codes
-│  ├─ is-core-module@2.13.1
+│  ├─ is-core-module@2.15.0
 │  │  ├─ URL: git+https://github.com/inspect-js/is-core-module.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/is-core-module
+│  ├─ is-data-view@1.0.1
+│  │  ├─ URL: git+https://github.com/inspect-js/is-data-view.git
+│  │  ├─ VendorName: Jordan Harband
+│  │  └─ VendorUrl: https://github.com/inspect-js/is-data-view#readme
 │  ├─ is-date-object@1.0.5
 │  │  ├─ URL: git://github.com/inspect-js/is-date-object.git
 │  │  └─ VendorName: Jordan Harband
@@ -597,11 +623,11 @@
 │  │  ├─ URL: https://github.com/micromatch/is-glob.git
 │  │  ├─ VendorName: Jon Schlinkert
 │  │  └─ VendorUrl: https://github.com/micromatch/is-glob
-│  ├─ is-map@2.0.2
+│  ├─ is-map@2.0.3
 │  │  ├─ URL: git+https://github.com/inspect-js/is-map.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/is-map#readme
-│  ├─ is-negative-zero@2.0.2
+│  ├─ is-negative-zero@2.0.3
 │  │  ├─ URL: git://github.com/inspect-js/is-negative-zero.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/is-negative-zero
@@ -621,11 +647,11 @@
 │  │  ├─ URL: git://github.com/inspect-js/is-regex.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/is-regex
-│  ├─ is-set@2.0.2
+│  ├─ is-set@2.0.3
 │  │  ├─ URL: git+https://github.com/inspect-js/is-set.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/is-set#readme
-│  ├─ is-shared-array-buffer@1.0.2
+│  ├─ is-shared-array-buffer@1.0.3
 │  │  ├─ URL: git+https://github.com/inspect-js/is-shared-array-buffer.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/is-shared-array-buffer#readme
@@ -635,11 +661,11 @@
 │  ├─ is-symbol@1.0.4
 │  │  ├─ URL: git://github.com/inspect-js/is-symbol.git
 │  │  └─ VendorName: Jordan Harband
-│  ├─ is-typed-array@1.1.12
+│  ├─ is-typed-array@1.1.13
 │  │  ├─ URL: git://github.com/inspect-js/is-typed-array.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: http://ljharb.codes
-│  ├─ is-weakmap@2.0.1
+│  ├─ is-weakmap@2.0.2
 │  │  ├─ URL: git+https://github.com/inspect-js/is-weakmap.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/is-weakmap#readme
@@ -647,7 +673,7 @@
 │  │  ├─ URL: git+https://github.com/inspect-js/is-weakref.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/is-weakref#readme
-│  ├─ is-weakset@2.0.2
+│  ├─ is-weakset@2.0.3
 │  │  ├─ URL: git+https://github.com/inspect-js/is-weakset.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/is-weakset#readme
@@ -707,7 +733,7 @@
 │  ├─ merge2@1.4.1
 │  │  ├─ URL: git@github.com:teambition/merge2.git
 │  │  └─ VendorUrl: https://github.com/teambition/merge2
-│  ├─ micromatch@4.0.5
+│  ├─ micromatch@4.0.7
 │  │  ├─ URL: https://github.com/micromatch/micromatch.git
 │  │  ├─ VendorName: Jon Schlinkert
 │  │  └─ VendorUrl: https://github.com/micromatch/micromatch
@@ -724,7 +750,7 @@
 │  │  ├─ URL: https://github.com/sindresorhus/object-assign.git
 │  │  ├─ VendorName: Sindre Sorhus
 │  │  └─ VendorUrl: sindresorhus.com
-│  ├─ object-inspect@1.13.1
+│  ├─ object-inspect@1.13.2
 │  │  ├─ URL: git://github.com/inspect-js/object-inspect.git
 │  │  ├─ VendorName: James Halliday
 │  │  └─ VendorUrl: https://github.com/inspect-js/object-inspect
@@ -735,20 +761,16 @@
 │  ├─ object.assign@4.1.5
 │  │  ├─ URL: git://github.com/ljharb/object.assign.git
 │  │  └─ VendorName: Jordan Harband
-│  ├─ object.entries@1.1.7
+│  ├─ object.entries@1.1.8
 │  │  ├─ URL: git://github.com/es-shims/Object.entries.git
 │  │  └─ VendorName: Jordan Harband
-│  ├─ object.fromentries@2.0.7
+│  ├─ object.fromentries@2.0.8
 │  │  ├─ URL: git://github.com/es-shims/Object.fromEntries.git
 │  │  └─ VendorName: Jordan Harband
-│  ├─ object.hasown@1.1.3
-│  │  ├─ URL: https://github.com/es-shims/Object.hasOwn.git
-│  │  ├─ VendorName: Jordan Harband
-│  │  └─ VendorUrl: https://github.com/es-shims/Object.hasOwn
-│  ├─ object.values@1.1.7
+│  ├─ object.values@1.2.0
 │  │  ├─ URL: git://github.com/es-shims/Object.values.git
 │  │  └─ VendorName: Jordan Harband
-│  ├─ optionator@0.9.3
+│  ├─ optionator@0.9.4
 │  │  ├─ URL: git://github.com/gkz/optionator.git
 │  │  ├─ VendorName: George Zahariev
 │  │  └─ VendorUrl: https://github.com/gkz/optionator
@@ -803,7 +825,11 @@
 │  ├─ pngjs@5.0.0
 │  │  ├─ URL: git://github.com/lukeapage/pngjs.git
 │  │  └─ VendorUrl: https://github.com/lukeapage/pngjs
-│  ├─ postcss@8.4.32
+│  ├─ possible-typed-array-names@1.0.0
+│  │  ├─ URL: git+https://github.com/ljharb/possible-typed-array-names.git
+│  │  ├─ VendorName: Jordan Harband
+│  │  └─ VendorUrl: https://github.com/ljharb/possible-typed-array-names#readme
+│  ├─ postcss@8.4.40
 │  │  ├─ URL: https://github.com/postcss/postcss.git
 │  │  ├─ VendorName: Andrey Sitnik
 │  │  └─ VendorUrl: https://postcss.org/
@@ -811,7 +837,7 @@
 │  │  ├─ URL: git://github.com/gkz/prelude-ls.git
 │  │  ├─ VendorName: George Zahariev
 │  │  └─ VendorUrl: http://preludels.com/
-│  ├─ prettier@3.1.1
+│  ├─ prettier@3.3.3
 │  │  ├─ URL: https://github.com/prettier/prettier.git
 │  │  ├─ VendorName: James Long
 │  │  └─ VendorUrl: https://prettier.io/
@@ -830,26 +856,26 @@
 │  │  ├─ URL: git://github.com/feross/queue-microtask.git
 │  │  ├─ VendorName: Feross Aboukhadijeh
 │  │  └─ VendorUrl: https://github.com/feross/queue-microtask
-│  ├─ react-dom@18.2.0
+│  ├─ react-dom@18.3.1
 │  │  ├─ URL: https://github.com/facebook/react.git
 │  │  └─ VendorUrl: https://reactjs.org/
-│  ├─ react-error-boundary@4.0.11
+│  ├─ react-error-boundary@4.0.13
 │  │  ├─ URL: https://github.com/bvaughn/react-error-boundary
 │  │  └─ VendorName: Brian Vaughn
 │  ├─ react-is@16.13.1
 │  │  ├─ URL: https://github.com/facebook/react.git
 │  │  └─ VendorUrl: https://reactjs.org/
-│  ├─ react@18.2.0
+│  ├─ react@18.3.1
 │  │  ├─ URL: https://github.com/facebook/react.git
 │  │  └─ VendorUrl: https://reactjs.org/
-│  ├─ reflect.getprototypeof@1.0.4
+│  ├─ reflect.getprototypeof@1.0.6
 │  │  ├─ URL: git+https://github.com/es-shims/Reflect.getPrototypeOf.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/es-shims/Reflect.getPrototypeOf
-│  ├─ regenerator-runtime@0.14.0
+│  ├─ regenerator-runtime@0.14.1
 │  │  ├─ URL: https://github.com/facebook/regenerator/tree/main/packages/runtime
 │  │  └─ VendorName: Ben Newman
-│  ├─ regexp.prototype.flags@1.5.1
+│  ├─ regexp.prototype.flags@1.5.2
 │  │  ├─ URL: git://github.com/es-shims/RegExp.prototype.flags.git
 │  │  └─ VendorName: Jordan Harband
 │  ├─ require-directory@2.1.1
@@ -868,7 +894,7 @@
 │  │  ├─ URL: git+https://github.com/mcollina/reusify.git
 │  │  ├─ VendorName: Matteo Collina
 │  │  └─ VendorUrl: https://github.com/mcollina/reusify#readme
-│  ├─ rollup@4.7.0
+│  ├─ rollup@4.19.1
 │  │  ├─ URL: https://github.com/rollup/rollup.git
 │  │  ├─ VendorName: Rich Harris
 │  │  └─ VendorUrl: https://rollupjs.org/
@@ -876,22 +902,22 @@
 │  │  ├─ URL: git://github.com/feross/run-parallel.git
 │  │  ├─ VendorName: Feross Aboukhadijeh
 │  │  └─ VendorUrl: https://github.com/feross/run-parallel
-│  ├─ safe-array-concat@1.0.1
+│  ├─ safe-array-concat@1.1.2
 │  │  ├─ URL: git+https://github.com/ljharb/safe-array-concat.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/ljharb/safe-array-concat#readme
-│  ├─ safe-regex-test@1.0.0
+│  ├─ safe-regex-test@1.0.3
 │  │  ├─ URL: git+https://github.com/ljharb/safe-regex-test.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/ljharb/safe-regex-test#readme
-│  ├─ scheduler@0.23.0
+│  ├─ scheduler@0.23.2
 │  │  ├─ URL: https://github.com/facebook/react.git
 │  │  └─ VendorUrl: https://reactjs.org/
-│  ├─ set-function-length@1.1.1
+│  ├─ set-function-length@1.2.2
 │  │  ├─ URL: git+https://github.com/ljharb/set-function-length.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/ljharb/set-function-length#readme
-│  ├─ set-function-name@2.0.1
+│  ├─ set-function-name@2.0.2
 │  │  ├─ URL: git+https://github.com/ljharb/set-function-name.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/ljharb/set-function-name#readme
@@ -903,7 +929,7 @@
 │  │  ├─ URL: https://github.com/sindresorhus/shebang-regex.git
 │  │  ├─ VendorName: Sindre Sorhus
 │  │  └─ VendorUrl: sindresorhus.com
-│  ├─ side-channel@1.0.4
+│  ├─ side-channel@1.0.6
 │  │  ├─ URL: git+https://github.com/ljharb/side-channel.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/ljharb/side-channel#readme
@@ -915,18 +941,22 @@
 │  │  ├─ URL: https://github.com/sindresorhus/string-width.git
 │  │  ├─ VendorName: Sindre Sorhus
 │  │  └─ VendorUrl: sindresorhus.com
-│  ├─ string.prototype.matchall@4.0.10
+│  ├─ string.prototype.matchall@4.0.11
 │  │  ├─ URL: git+https://github.com/es-shims/String.prototype.matchAll.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/es-shims/String.prototype.matchAll#readme
-│  ├─ string.prototype.trim@1.2.8
+│  ├─ string.prototype.repeat@1.0.0
+│  │  ├─ URL: https://github.com/mathiasbynens/String.prototype.repeat.git
+│  │  ├─ VendorName: Mathias Bynens
+│  │  └─ VendorUrl: https://mths.be/repeat
+│  ├─ string.prototype.trim@1.2.9
 │  │  ├─ URL: git://github.com/es-shims/String.prototype.trim.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: http://ljharb.codes
-│  ├─ string.prototype.trimend@1.0.7
+│  ├─ string.prototype.trimend@1.0.8
 │  │  ├─ URL: git://github.com/es-shims/String.prototype.trimEnd.git
 │  │  └─ VendorName: Jordan Harband
-│  ├─ string.prototype.trimstart@1.0.7
+│  ├─ string.prototype.trimstart@1.0.8
 │  │  ├─ URL: git://github.com/es-shims/String.prototype.trimStart.git
 │  │  └─ VendorName: Jordan Harband
 │  ├─ strip-ansi@6.0.1
@@ -953,26 +983,26 @@
 │  │  ├─ URL: https://github.com/micromatch/to-regex-range.git
 │  │  ├─ VendorName: Jon Schlinkert
 │  │  └─ VendorUrl: https://github.com/micromatch/to-regex-range
-│  ├─ ts-api-utils@1.0.3
+│  ├─ ts-api-utils@1.3.0
 │  │  ├─ URL: https://github.com/JoshuaKGoldberg/ts-api-utils
-│  │  └─ VendorName: Josh Goldberg
+│  │  └─ VendorName: JoshuaKGoldberg
 │  ├─ type-check@0.4.0
 │  │  ├─ URL: git://github.com/gkz/type-check.git
 │  │  ├─ VendorName: George Zahariev
 │  │  └─ VendorUrl: https://github.com/gkz/type-check
-│  ├─ typed-array-buffer@1.0.0
+│  ├─ typed-array-buffer@1.0.2
 │  │  ├─ URL: git+https://github.com/ljharb/typed-array-buffer.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/ljharb/typed-array-buffer#readme
-│  ├─ typed-array-byte-length@1.0.0
+│  ├─ typed-array-byte-length@1.0.1
 │  │  ├─ URL: git+https://github.com/inspect-js/typed-array-byte-length.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/typed-array-byte-length#readme
-│  ├─ typed-array-byte-offset@1.0.0
+│  ├─ typed-array-byte-offset@1.0.2
 │  │  ├─ URL: git+https://github.com/inspect-js/typed-array-byte-offset.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/typed-array-byte-offset#readme
-│  ├─ typed-array-length@1.0.4
+│  ├─ typed-array-length@1.0.6
 │  │  ├─ URL: git+https://github.com/inspect-js/typed-array-length.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/typed-array-length#readme
@@ -980,14 +1010,14 @@
 │  │  ├─ URL: git+https://github.com/ljharb/unbox-primitive.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/ljharb/unbox-primitive#readme
-│  ├─ undici-types@5.26.5
+│  ├─ undici-types@6.11.1
 │  │  ├─ URL: git+https://github.com/nodejs/undici.git
 │  │  └─ VendorUrl: https://undici.nodejs.org/
 │  ├─ vite-plugin-singlefile@0.13.5
 │  │  ├─ URL: https://github.com/richardtallent/vite-plugin-singlefile
 │  │  ├─ VendorName: richard@tallent.us
 │  │  └─ VendorUrl: https://github.com/richardtallent/vite-plugin-singlefile/tree/main/#readme
-│  ├─ vite@5.0.7
+│  ├─ vite@5.3.5
 │  │  ├─ URL: git+https://github.com/vitejs/vite.git
 │  │  ├─ VendorName: Evan You
 │  │  └─ VendorUrl: https://vitejs.dev/
@@ -999,14 +1029,18 @@
 │  │  ├─ URL: git+https://github.com/inspect-js/which-builtin-type.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/which-builtin-type#readme
-│  ├─ which-collection@1.0.1
+│  ├─ which-collection@1.0.2
 │  │  ├─ URL: git+https://github.com/inspect-js/which-collection.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: https://github.com/inspect-js/which-collection#readme
-│  ├─ which-typed-array@1.1.13
+│  ├─ which-typed-array@1.1.15
 │  │  ├─ URL: git://github.com/inspect-js/which-typed-array.git
 │  │  ├─ VendorName: Jordan Harband
 │  │  └─ VendorUrl: http://ljharb.codes
+│  ├─ word-wrap@1.2.5
+│  │  ├─ URL: https://github.com/jonschlinkert/word-wrap.git
+│  │  ├─ VendorName: Jon Schlinkert
+│  │  └─ VendorUrl: https://github.com/jonschlinkert/word-wrap
 │  ├─ wrap-ansi@6.2.0
 │  │  ├─ URL: https://github.com/chalk/wrap-ansi.git
 │  │  ├─ VendorName: Sindre Sorhus
