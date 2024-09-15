@@ -95,9 +95,9 @@ jobs:
 
       - name: Prepare release files
         run: |
-          mkdir -p ${{ env.ZIP_DIR }}/TRViS.LocalServers.TrainCrew.deps
+          mkdir -p ${{ env.ZIP_DIR }}
           mv .out/TRViS.LocalServers.TrainCrew.exe* ${{ env.ZIP_DIR }}/
-          mv .out/*.dll ${{ env.ZIP_DIR }}/TRViS.LocalServers.TrainCrew.deps/
+          mv .out/*.dll ${{ env.ZIP_DIR }}/
           cp TRViS.LocalServers.TrainCrew/README.md ${{ env.ZIP_DIR }}/
           cp LICENSE ${{ env.ZIP_DIR }}/
           cp ConnectHelper/LICENSE-NODE.md ${{ env.ZIP_DIR }}/
