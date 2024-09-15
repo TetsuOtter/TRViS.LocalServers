@@ -1,6 +1,6 @@
 using System;
 
-namespace TRViS.LocalServers.BveTs.ResponseTypes;
+namespace TRViS.LocalServers.ResponseTypes;
 
 /// <summary>
 /// 現在開かれているシナリオの情報

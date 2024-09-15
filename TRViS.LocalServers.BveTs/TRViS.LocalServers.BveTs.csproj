@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework Condition="!$([MSBuild]::IsOSPlatform('windows'))">netstandard2.0</TargetFramework>
-		<TargetFramework Condition="$([MSBuild]::IsOSPlatform('windows'))">net48</TargetFramework>
+		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net48</TargetFrameworks>
 		<LangVersion>12</LangVersion>
 		<UseWindowsForms Condition="$([MSBuild]::IsOSPlatform('windows'))">true</UseWindowsForms>
 		<Nullable>enable</Nullable>
-		<Version>1.0.2</Version>
+		<Version>1.1.0</Version>
 		<Authors>Tetsu Otter</Authors>
 		<Company>Tech Otter</Company>
 		<Product>TRViS</Product>
@@ -19,19 +19,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="../ConnectHelper/dist/index.html" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="AtsEx.PluginHost" Version="1.0.0-rc9">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="AtsEx.CoreExtensions" Version="1.0.0-rc9">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="TR.SimpleHttpServer" Version="1.0.0.1" />
-		<PackageReference Include="TRViS.JsonModels" Version="1.0.2" />
-		<PackageReference Include="System.Text.Json" Version="8.0.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\TRViS.LocalServers.Core\TRViS.LocalServers.Core.csproj" />
 	</ItemGroup>
 
 </Project>

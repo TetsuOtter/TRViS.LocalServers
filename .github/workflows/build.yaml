@@ -57,7 +57,6 @@ jobs:
         with:
           name: index.html
           path: ./ConnectHelper/dist/index.html
-          retention-days: 3
 
       - name: get license disclaimer
         run: yarn licenses generate-disclaimer > LICENSE-NODE.md
@@ -67,7 +66,6 @@ jobs:
         with:
           name: LICENSE-NODE.md
           path: ./ConnectHelper/LICENSE-NODE.md
-          retention-days: 3
 
       - uses: actions/setup-dotnet@v4
 
@@ -119,3 +117,11 @@ jobs:
         with:
           name: TRViS.LocalServers.BveTs.7z
           path: TRViS.LocalServers.BveTs.7z
+
+      - name: Upload 7z&zip for release
+        uses: actions/upload-artifact@v4
+        with:
+          name: TRViS.LocalServers.BveTs.release
+          path: |
+            TRViS.LocalServers.BveTs.zip
+            TRViS.LocalServers.BveTs.7z
