@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 
 #if NET48
 using AtsEx.Extensions.ContextMenuHacker;
@@ -21,9 +20,5 @@ public partial class TimetableServerPlugin
 #endif
 	}
 
-	void OnOpenBrowserClicked(object? semder, EventArgs e)
-	{
-		string url = $"http://localhost:{port}{LISTENER_PATH}{QR_HTML_FILE_NAME}?host={ipv4Address}&port={port}";
-		Process.Start(url);
-	}
+	void OnOpenBrowserClicked(object? semder, EventArgs e) => server.OnOpenBrowserClicked();
 }

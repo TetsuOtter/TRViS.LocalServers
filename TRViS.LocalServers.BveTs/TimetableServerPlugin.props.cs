@@ -1,6 +1,3 @@
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Reflection;
 
 namespace TRViS.LocalServers.BveTs;
@@ -17,8 +14,7 @@ public partial class TimetableServerPlugin
 
 	public override string Version => currentAssembly.GetName().Version.ToString();
 
-	IPAddress? ipv4Address => localAddressList.FirstOrDefault(v => v.AddressFamily == AddressFamily.InterNetwork);
-	public override string Description => $"({ipv4Address ?? localAddressList.FirstOrDefault()}:{port}) Provides a timetable data server for TRViS";
+	public override string Description => $"({server.ipv4Address?.ToString() ?? "null"}:{server.port}) Provides a timetable data server for TRViS";
 
 	public override string Copyright => "Copyright 2023 Tetsu Otter";
 }
