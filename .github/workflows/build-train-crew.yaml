@@ -16,19 +16,8 @@ env:
 
 jobs:
   build:
-    if: |
-      !failure()
-      && !cancelled()
-      && (
-        github.event_name != 'pull_request'
-        || github.event.pull_request.draft == false
-      )
-
     runs-on: windows-latest
     timeout-minutes: 5
-
-    env:
-      ZIP_DIR: ./zip/TRViS.LocalServers.TrainCrew
 
     steps:
       - uses: actions/checkout@v4
@@ -84,44 +73,11 @@ jobs:
           dotnet publish ${{ env.CSPROJ_PATH }}
           -f ${{ env.TARGET_FRAMEWORK }}
           -c Release
-          -o ".out"
+          -o ./out
 
       - name: Upload DLL
         uses: actions/upload-artifact@v4
         with:
           name: TRViS.LocalServers.TrainCrew
-          path: .out
+          path: ./out/*
           retention-days: 3
-
-      - name: Prepare release files
-        run: |
-          mkdir -p ${{ env.ZIP_DIR }}
-          mv .out/TRViS.LocalServers.TrainCrew.exe* ${{ env.ZIP_DIR }}/
-          mv .out/*.dll ${{ env.ZIP_DIR }}/
-          cp TRViS.LocalServers.TrainCrew/README.md ${{ env.ZIP_DIR }}/
-          cp LICENSE ${{ env.ZIP_DIR }}/
-          cp ConnectHelper/LICENSE-NODE.md ${{ env.ZIP_DIR }}/
-
-      - name: Zip release files with zip
-        run: 7z a -tzip TRViS.LocalServers.TrainCrew.zip ${{ env.ZIP_DIR }}
-      - name: Upload ZIP
-        uses: actions/upload-artifact@v4
-        with:
-          name: TRViS.LocalServers.TrainCrew.zip
-          path: TRViS.LocalServers.TrainCrew.zip
-
-      - name: Zip release files with 7z
-        run: 7z a -t7z TRViS.LocalServers.TrainCrew.7z ${{ env.ZIP_DIR }}
-      - name: Upload 7z
-        uses: actions/upload-artifact@v4
-        with:
-          name: TRViS.LocalServers.TrainCrew.7z
-          path: TRViS.LocalServers.TrainCrew.7z
-
-      - name: Upload 7z&zip for release
-        uses: actions/upload-artifact@v4
-        with:
-          name: TRViS.LocalServers.TrainCrew.release
-          path: |
-            TRViS.LocalServers.TrainCrew.zip
-            TRViS.LocalServers.TrainCrew.7z

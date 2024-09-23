@@ -16,19 +16,8 @@ env:
 
 jobs:
   build:
-    if: |
-      !failure()
-      && !cancelled()
-      && (
-        github.event_name != 'pull_request'
-        || github.event.pull_request.draft == false
-      )
-
     runs-on: windows-latest
     timeout-minutes: 5
-
-    env:
-      ZIP_DIR: ./zip/TRViS.LocalServers.BveTs
 
     steps:
       - uses: actions/checkout@v4
@@ -84,44 +73,11 @@ jobs:
           dotnet publish ${{ env.BVETS_SERVER_CSPROJ_PATH }}
           -f ${{ env.BVETS_SERVER_TARGET_FRAMEWORK }}
           -c Release
-          -o ".out"
+          -o ./out
 
       - name: Upload DLL
         uses: actions/upload-artifact@v4
         with:
           name: TRViS.LocalServers.BveTs
-          path: .out
+          path: ./out/*
           retention-days: 3
-
-      - name: Prepare release files
-        run: |
-          mkdir -p ${{ env.ZIP_DIR }}/TRViS.LocalServers.BveTs.deps
-          mv .out/TRViS.LocalServers.BveTs.dll ${{ env.ZIP_DIR }}/
-          mv .out/*.dll ${{ env.ZIP_DIR }}/TRViS.LocalServers.BveTs.deps/
-          cp TRViS.LocalServers.BveTs/README.md ${{ env.ZIP_DIR }}/
-          cp LICENSE ${{ env.ZIP_DIR }}/
-          cp ConnectHelper/LICENSE-NODE.md ${{ env.ZIP_DIR }}/
-
-      - name: Zip release files with zip
-        run: 7z a -tzip TRViS.LocalServers.BveTs.zip ${{ env.ZIP_DIR }}
-      - name: Upload ZIP
-        uses: actions/upload-artifact@v4
-        with:
-          name: TRViS.LocalServers.BveTs.zip
-          path: TRViS.LocalServers.BveTs.zip
-
-      - name: Zip release files with 7z
-        run: 7z a -t7z TRViS.LocalServers.BveTs.7z ${{ env.ZIP_DIR }}
-      - name: Upload 7z
-        uses: actions/upload-artifact@v4
-        with:
-          name: TRViS.LocalServers.BveTs.7z
-          path: TRViS.LocalServers.BveTs.7z
-
-      - name: Upload 7z&zip for release
-        uses: actions/upload-artifact@v4
-        with:
-          name: TRViS.LocalServers.BveTs.release
-          path: |
-            TRViS.LocalServers.BveTs.zip
-            TRViS.LocalServers.BveTs.7z
