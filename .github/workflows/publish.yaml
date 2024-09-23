@@ -1,0 +1,274 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version'
+        required: true
+        default: '1.0.0'
+
+env:
+  BVETS_SERVER_CSPROJ_PATH: ./TRViS.LocalServers.BveTs/TRViS.LocalServers.BveTs.csproj
+  BVETS_SERVER_TARGET_FRAMEWORK: net48
+  TRAIN_CREW_SERVER_CSPROJ_PATH: ./TRViS.LocalServers.TrainCrew/TRViS.LocalServers.TrainCrew.csproj
+  TRAIN_CREW_SERVER_TARGET_FRAMEWORK: net48
+  ASSET_NAME_INDEX_HTML: index.html
+  ASSET_NAME_LICENSE_NODE: LICENSE-NODE.md
+  ASSET_NAME_BVETS: TRViS.LocalServers.BveTs
+  ASSET_NAME_TRAIN_CREW: TRViS.LocalServers.TrainCrew
+
+jobs:
+  tag-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check tag
+        run: |
+          if [ -z "${{ github.event.inputs.version }}" ]; then
+            echo "No version specified"
+            exit 1
+          fi
+          RESPONSE_CODE=$(curl -w '%{response_code}' -so /dev/null --head https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ github.event.inputs.version }})
+          echo "Response code: $RESPONSE_CODE"
+          if [ $RESPONSE_CODE -eq 200 ]; then
+            echo "Tag already exists"
+            exit 1
+          fi
+
+
+  build-connect-helper:
+    runs-on: windows-latest
+    timeout-minutes: 5
+    needs:
+      - tag-check
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: ConnectHelper/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('ConnectHelper/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: yarn install
+        run: yarn install --frozen-lockfile
+        working-directory: ./ConnectHelper
+
+      - name: yarn update-license
+        run: yarn update-license
+        working-directory: ./ConnectHelper
+
+      - name: yarn build
+        run: yarn build
+        working-directory: ./ConnectHelper
+
+      - name: Upload index.html
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ASSET_NAME_INDEX_HTML }}
+          path: ./ConnectHelper/dist/index.html
+
+      - name: get license disclaimer
+        run: yarn licenses generate-disclaimer > LICENSE-NODE.md
+        working-directory: ./ConnectHelper
+      - name: Upload LICENSE-NODE.md
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ASSET_NAME_LICENSE_NODE }}
+          path: ./ConnectHelper/LICENSE-NODE.md
+
+  build-for-bvets:
+    runs-on: windows-latest
+    timeout-minutes: 5
+    needs:
+      - build-connect-helper
+
+    env:
+      ZIP_DIR: ./zip/TRViS.LocalServers.BveTs
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ASSET_NAME_INDEX_HTML }}
+          path: ./ConnectHelper/dist/index.html
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ASSET_NAME_LICENSE_NODE }}
+          path: ./ConnectHelper/LICENSE-NODE.md
+
+      - name: cache nuget packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-
+      - name: Install dependencies
+        run: dotnet restore ${{ env.BVETS_SERVER_CSPROJ_PATH }}
+
+      - name: Build
+        run: >
+          dotnet publish ${{ env.BVETS_SERVER_CSPROJ_PATH }}
+          -f ${{ env.BVETS_SERVER_TARGET_FRAMEWORK }}
+          -c Release
+          -o ".out"
+          /p:Version=${{ github.event.inputs.version }}
+
+      - name: Prepare release files
+        run: |
+          mkdir -p ${{ env.ZIP_DIR }}/TRViS.LocalServers.BveTs.deps
+          mv .out/TRViS.LocalServers.BveTs.dll ${{ env.ZIP_DIR }}/
+          mv .out/*.dll ${{ env.ZIP_DIR }}/TRViS.LocalServers.BveTs.deps/
+          cp TRViS.LocalServers.BveTs/README.md ${{ env.ZIP_DIR }}/
+          cp LICENSE ${{ env.ZIP_DIR }}/
+          cp ConnectHelper/LICENSE-NODE.md ${{ env.ZIP_DIR }}/
+
+      - name: Upload Release Files
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ASSET_NAME_BVETS }}
+          path: ${{ env.ZIP_DIR }}
+
+  build-for-train-crew:
+    runs-on: windows-latest
+    timeout-minutes: 5
+    needs:
+      - build-connect-helper
+
+    env:
+      ZIP_DIR: ./zip/TRViS.LocalServers.TrainCrew
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ASSET_NAME_INDEX_HTML }}
+          path: ./ConnectHelper/dist/index.html
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ASSET_NAME_LICENSE_NODE }}
+          path: ./ConnectHelper/LICENSE-NODE.md
+
+      - uses: actions/setup-dotnet@v4
+
+      - name: cache nuget packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-
+      - name: Install dependencies
+        run: dotnet restore ${{ env.TRAIN_CREW_SERVER_CSPROJ_PATH }}
+
+      - name: Build
+        run: >
+          dotnet publish ${{ env.TRAIN_CREW_SERVER_CSPROJ_PATH }}
+          -f ${{ env.TRAIN_CREW_SERVER_TARGET_FRAMEWORK }}
+          -c Release
+          -o ".out"
+          /p:Version=${{ github.event.inputs.version }}
+
+      - name: Prepare release files
+        run: |
+          mkdir -p ${{ env.ZIP_DIR }}
+          mv .out/TRViS.LocalServers.TrainCrew.exe* ${{ env.ZIP_DIR }}/
+          mv .out/*.dll ${{ env.ZIP_DIR }}/
+          cp TRViS.LocalServers.TrainCrew/README.md ${{ env.ZIP_DIR }}/
+          cp LICENSE ${{ env.ZIP_DIR }}/
+          cp ConnectHelper/LICENSE-NODE.md ${{ env.ZIP_DIR }}/
+
+      - name: Upload Release Files
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ASSET_NAME_TRAIN_CREW }}
+          path: ${{ env.ZIP_DIR }}
+
+
+  set-tag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs:
+      - build-for-bvets
+      - build-for-train-crew
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: fetch all history to assign tag
+      if: ${{ github.event_name == 'pull_request' }}
+      run: git fetch --unshallow --no-tags --no-recurse-submodules origin +${{ github.sha }}:${{ github.ref }}
+
+    - name: Setup github-actions[bot] account
+      run: |
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+    - name: tagging new tag
+      run: git tag -a ${{ github.event.inputs.version }} -m "Auto Generated tag ( https://github.com/${{github.repository}}/actions/runs/${{github.run_id}} )"
+
+    - name: push new tag
+      run: git push origin ${{ github.event.inputs.version }}
+
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs:
+      - set-tag
+
+    env:
+      BVETS_SERVER_FILES_DIR: ./BveTs
+      TRAIN_CREW_SERVER_FILES_DIR: ./TrainCrew
+      RELEASE_ASSETS_DIR: .out
+
+    steps:
+      - name: create output directory
+        run: mkdir -p .out
+
+      - name: Download Release Files for BveTs
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ASSET_NAME_BVETS }}
+          path: ${{ env.BVETS_SERVER_FILES_DIR }}
+
+      - name: Download Release Files for TRAIN CREW
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ASSET_NAME_TRAIN_CREW }}
+          path: ${{ env.TRAIN_CREW_SERVER_FILES_DIR }}
+
+      - name: Download index.html
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ASSET_NAME_INDEX_HTML }}
+          path: ${{ env.RELEASE_ASSETS_DIR }}
+      - name: Download LICENSE-NODE.md
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ASSET_NAME_LICENSE_NODE }}
+          path: ${{ env.RELEASE_ASSETS_DIR }}
+
+      - name: Create zip / 7z
+        run: |
+          7z a -tzip ${{ env.RELEASE_ASSETS_DIR }}/${{ env.ASSET_NAME_BVETS }}.zip ${{ env.BVETS_SERVER_FILES_DIR }}
+          7z a -t7z ${{ env.RELEASE_ASSETS_DIR }}/${{ env.ASSET_NAME_BVETS }}.7z ${{ env.BVETS_SERVER_FILES_DIR }}
+          7z a -tzip ${{ env.RELEASE_ASSETS_DIR }}/${{ env.ASSET_NAME_TRAIN_CREW }}.zip ${{ env.TRAIN_CREW_SERVER_FILES_DIR }}
+          7z a -t7z ${{ env.RELEASE_ASSETS_DIR }}/${{ env.ASSET_NAME_TRAIN_CREW }}.7z ${{ env.TRAIN_CREW_SERVER_FILES_DIR }}
+
+
+      - name: Create Release
+        run: >
+          gh release create ${{ github.event.inputs.version }}
+          --draft
+          --generate-notes
+          ${{ env.RELEASE_ASSETS_DIR }}/*
+          --repo ${{ github.repository }}
+          --notes 'This release is automatically created by actions ... https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
