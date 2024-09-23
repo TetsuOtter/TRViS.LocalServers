@@ -79,5 +79,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: TRViS.LocalServers.TrainCrew
-          path: .out
+          path: .out/*
           retention-days: 3
