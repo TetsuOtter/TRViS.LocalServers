@@ -225,11 +225,11 @@ jobs:
     env:
       BVETS_SERVER_FILES_DIR: ./BveTs
       TRAIN_CREW_SERVER_FILES_DIR: ./TrainCrew
-      RELEASE_ASSETS_DIR: .out
+      RELEASE_ASSETS_DIR: out
 
     steps:
       - name: create output directory
-        run: mkdir -p .out
+        run: mkdir -p ${{ env.RELEASE_ASSETS_DIR }}
 
       - name: Download Release Files for BveTs
         uses: actions/download-artifact@v4

@@ -73,11 +73,11 @@ jobs:
           dotnet publish ${{ env.BVETS_SERVER_CSPROJ_PATH }}
           -f ${{ env.BVETS_SERVER_TARGET_FRAMEWORK }}
           -c Release
-          -o ".out"
+          -o ./out
 
       - name: Upload DLL
         uses: actions/upload-artifact@v4
         with:
           name: TRViS.LocalServers.BveTs
-          path: .out/*
+          path: ./out/*
           retention-days: 3

@@ -73,11 +73,11 @@ jobs:
           dotnet publish ${{ env.CSPROJ_PATH }}
           -f ${{ env.TARGET_FRAMEWORK }}
           -c Release
-          -o ".out"
+          -o ./out
 
       - name: Upload DLL
         uses: actions/upload-artifact@v4
         with:
           name: TRViS.LocalServers.TrainCrew
-          path: .out/*
+          path: ./out/*
           retention-days: 3
