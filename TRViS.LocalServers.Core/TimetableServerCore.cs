@@ -117,8 +117,19 @@ public class TimetableServerCore : IDisposable
 				body: "Not Found"
 			);
 		}
-
-		if (pathWithoutQueryOrHash is LISTENER_PATH or (LISTENER_PATH + QR_HTML_FILE_NAME))
+		else if (pathWithoutQueryOrHash is LISTENER_PATH)
+		{
+			return new HttpResponse(
+				status: "302 Found",
+				ContentType: "text/plain",
+				additionalHeaders: new NameValueCollection
+				{
+					{ "Location", BrowserLinkPath }
+				},
+				body: "Found"
+			);
+		}
+		else if (pathWithoutQueryOrHash is (LISTENER_PATH + QR_HTML_FILE_NAME))
 			return await GenResponseFromEmbeddedResourceAsync(QR_HTML_FILE_NAME, "text/html", additionalHeaders);
 		else if (pathWithoutQueryOrHash is LISTENER_PATH + SYNC_SERVICE_PATH)
 		{
@@ -228,7 +239,8 @@ public class TimetableServerCore : IDisposable
 		);
 	}
 
-	public string BrowserLink => $"http://localhost:{port}{LISTENER_PATH}{QR_HTML_FILE_NAME}?host={ipv4Address}&port={port}";
+	public string BrowserLinkPath => $"{LISTENER_PATH}{QR_HTML_FILE_NAME}?host={ipv4Address}&port={port}";
+	public string BrowserLink => $"http://localhost:{port}{BrowserLinkPath}";
 	public void OnOpenBrowserClicked() => Process.Start(BrowserLink);
 
 	public void Dispose()
