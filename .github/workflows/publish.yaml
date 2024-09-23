@@ -96,11 +96,11 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: ${{ env.ASSET_NAME_INDEX_HTML }}
-          path: ./ConnectHelper/dist/index.html
+          path: ./ConnectHelper/dist
       - uses: actions/download-artifact@v4
         with:
           name: ${{ env.ASSET_NAME_LICENSE_NODE }}
-          path: ./ConnectHelper/LICENSE-NODE.md
+          path: ./ConnectHelper
 
       - name: cache nuget packages
         uses: actions/cache@v4
@@ -150,11 +150,11 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: ${{ env.ASSET_NAME_INDEX_HTML }}
-          path: ./ConnectHelper/dist/index.html
+          path: ./ConnectHelper/dist
       - uses: actions/download-artifact@v4
         with:
           name: ${{ env.ASSET_NAME_LICENSE_NODE }}
-          path: ./ConnectHelper/LICENSE-NODE.md
+          path: ./ConnectHelper
 
       - uses: actions/setup-dotnet@v4
 
