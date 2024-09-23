@@ -256,10 +256,10 @@ jobs:
 
       - name: Create zip / 7z
         run: |
-          7z a -tzip ${{ env.RELEASE_ASSETS_DIR }}/${{ env.ASSET_NAME_BVETS }}.zip ${{ env.BVETS_SERVER_FILES_DIR }}
-          7z a -t7z ${{ env.RELEASE_ASSETS_DIR }}/${{ env.ASSET_NAME_BVETS }}.7z ${{ env.BVETS_SERVER_FILES_DIR }}
-          7z a -tzip ${{ env.RELEASE_ASSETS_DIR }}/${{ env.ASSET_NAME_TRAIN_CREW }}.zip ${{ env.TRAIN_CREW_SERVER_FILES_DIR }}
-          7z a -t7z ${{ env.RELEASE_ASSETS_DIR }}/${{ env.ASSET_NAME_TRAIN_CREW }}.7z ${{ env.TRAIN_CREW_SERVER_FILES_DIR }}
+          7z a -tzip ${{ env.RELEASE_ASSETS_DIR }}/${{ env.ASSET_NAME_BVETS }}.zip '${{ env.BVETS_SERVER_FILES_DIR }}/*'
+          7z a -t7z ${{ env.RELEASE_ASSETS_DIR }}/${{ env.ASSET_NAME_BVETS }}.7z '${{ env.BVETS_SERVER_FILES_DIR }}/*'
+          7z a -tzip ${{ env.RELEASE_ASSETS_DIR }}/${{ env.ASSET_NAME_TRAIN_CREW }}.zip '${{ env.TRAIN_CREW_SERVER_FILES_DIR }}/*'
+          7z a -t7z ${{ env.RELEASE_ASSETS_DIR }}/${{ env.ASSET_NAME_TRAIN_CREW }}.7z '${{ env.TRAIN_CREW_SERVER_FILES_DIR }}/*'
 
 
       - name: Create Release
