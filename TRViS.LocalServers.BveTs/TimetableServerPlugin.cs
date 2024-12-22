@@ -3,8 +3,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using AtsEx.PluginHost.Plugins;
-using AtsEx.PluginHost.Plugins.Extensions;
+using BveEx.PluginHost.Plugins;
+using BveEx.PluginHost.Plugins.Extensions;
 
 using BveTypes.ClassWrappers;
 
@@ -160,7 +160,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension, ITimetableS
 			Destination: null,
 			BeginRemarks: null,
 			AfterRemarks: null,
-			Remarks: "Generated with TRViS Local Servers (AtsEX Extension)\n" + scenarioInfo.Comment,
+			Remarks: "Generated with TRViS Local Servers (BveEX Extension)\n" + scenarioInfo.Comment,
 			BeforeDeparture: null,
 			TrainInfo: null,
 			Direction: 1,
@@ -189,7 +189,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension, ITimetableS
 
 		WorkGroupData trvisWorkGroupData = new(
 			Id: WORK_GROUP_ID,
-			Name: "TRViS Local Servers (AtsEX Extension)",
+			Name: "TRViS Local Servers (BveEX Extension)",
 			DBVersion: 1,
 			Works: [trvisWorkData]
 		);

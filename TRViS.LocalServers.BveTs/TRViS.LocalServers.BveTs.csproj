@@ -19,10 +19,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AtsEx.PluginHost" Version="1.0.0-rc9">
+		<PackageReference Include="BveEx.PluginHost" Version="2.0.0">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="AtsEx.CoreExtensions" Version="1.0.0-rc9">
+		<PackageReference Include="BveEx.CoreExtensions" Version="2.0.0">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 	</ItemGroup>
