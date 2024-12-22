@@ -1,7 +1,7 @@
 using System;
 
 #if NET48
-using AtsEx.Extensions.ContextMenuHacker;
+using BveEx.Extensions.ContextMenuHacker;
 #endif
 
 namespace TRViS.LocalServers.BveTs;

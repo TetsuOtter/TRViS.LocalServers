@@ -6,4 +6,4 @@
 
 詳細は各ディレクトリの`README.md`を参照してください。
 
-- [BveTs (AtsEXを使用)](/TRViS.LocalServers.BveTs/README.md)
+- [BveTs (BveEXを使用)](/TRViS.LocalServers.BveTs/README.md)
