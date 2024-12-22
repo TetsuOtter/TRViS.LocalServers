@@ -86,7 +86,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension, ITimetableS
 		ScenarioInfo scenarioInfo = BveHacker.ScenarioInfo;
 		TimeTable timeTable = scenario.TimeTable;
 
-		Station[] stationArray = scenario.Route.Stations.Cast<Station>().ToArray();
+		Station[] stationArray = scenario.Map.Stations.Cast<Station>().ToArray();
 		TimetableRowData[] trvisTimetableRows = new TimetableRowData[stationArray.Length];
 		// 最後の駅以外ドアが開かない場合、その列車は非営業列車である -> ドアが開かない駅でも運転停車ではない
 		bool isAllStationDoorNotOpenExceptLastStation = stationArray
@@ -205,7 +205,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension, ITimetableS
 	{
 		return BveHacker.IsScenarioCreated
 			? new(
-				Location_m: BveHacker.Scenario.LocationManager.Location,
+				Location_m: BveHacker.Scenario.VehicleLocation.Location,
 				Time_ms: BveHacker.Scenario.TimeManager.TimeMilliseconds,
 				CanStart: true
 			)
@@ -216,7 +216,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension, ITimetableS
 			);
 	}
 
-	public override TickResult Tick(TimeSpan elapsed) => new ExtensionTickResult();
+	public override void Tick(TimeSpan elapsed) { }
 
 	public override void Dispose()
 	{
