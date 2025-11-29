@@ -73,13 +73,15 @@ public class TimetableServerCore : IDisposable
 		throw new InvalidOperationException("TimetableServerPlugin: Address already in use.", _ex);
 	}
 
-	private async Task<WebSocketHandler?> HandleWebSocketPath(string path)
+	private Task<WebSocketHandler?> HandleWebSocketPath(string path)
 	{
 		if (path == WEBSOCKET_PATH)
 		{
-			return webSocketRequestHandler.HandleWebSocketAsync;
+			return Task.FromResult<WebSocketHandler?>(
+				webSocketRequestHandler.HandleWebSocketAsync
+			);
 		}
-		return null;
+		return Task.FromResult<WebSocketHandler?>(null);
 	}
 
 	private async Task<HttpResponse> HttpHandlerAsync(HttpRequest request)
