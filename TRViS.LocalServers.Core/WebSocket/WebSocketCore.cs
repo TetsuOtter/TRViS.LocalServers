@@ -13,6 +13,11 @@ namespace TRViS.LocalServers.Core.WebSocket;
 public class WebSocketCore(ITimetableServerBridge bridge) : IDisposable
 {
 	private readonly ITimetableServerBridge bridge = bridge;
+
+	/// <summary>
+	/// Expose the timetable bridge so callers (request handlers) can subscribe to its events.
+	/// </summary>
+	public ITimetableServerBridge Bridge => bridge;
 	private readonly ConcurrentDictionary<string, WebSocketClientState> clientStates = new();
 
 	private static readonly JsonSerializerOptions SerializerOptions = new()

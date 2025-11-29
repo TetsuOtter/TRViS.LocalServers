@@ -21,6 +21,10 @@ public partial class TimetableServerPlugin : PluginBase, IExtension, ITimetableS
 	const string TRAIN_ID = "1-1-1";
 	readonly TimetableServerCore server;
 
+	public event EventHandler<TrainChangedEventArgs>? OnTrainChanged;
+
+	private bool previousScenarioLoaded = false;
+
 	public TimetableServerPlugin(PluginBuilder builder) : base(builder)
 	{
 		server = new(this);
@@ -216,7 +220,24 @@ public partial class TimetableServerPlugin : PluginBase, IExtension, ITimetableS
 			);
 	}
 
-	public override void Tick(TimeSpan elapsed) { }
+	public override void Tick(TimeSpan elapsed)
+	{
+		bool currentScenarioLoaded = IsScenarioLoaded;
+
+		if (previousScenarioLoaded != currentScenarioLoaded)
+		{
+			previousScenarioLoaded = currentScenarioLoaded;
+			if (currentScenarioLoaded)
+			{
+				OnTrainChanged?.Invoke(this, new TrainChangedEventArgs
+				{
+					WorkGroupId = WORK_GROUP_ID,
+					WorkId = WORK_ID,
+					TrainId = TRAIN_ID
+				});
+			}
+		}
+	}
 
 	public override void Dispose()
 	{

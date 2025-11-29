@@ -30,6 +30,34 @@ public class WebSocketRequestHandler(WebSocketCore core)
 		string clientId = core.CreateClientState();
 		Console.WriteLine($"WebSocket client connected: {clientId}");
 
+		// Subscribe to train changed events for this connection so we can push updates
+		EventHandler<TrainChangedEventArgs>? trainChangedHandler = null;
+		trainChangedHandler = async (s, e) =>
+		{
+			try
+			{
+				var state = core.GetClientState(clientId);
+				if (state == null)
+					return;
+				var timetableMessage = core.GenerateTimetableMessage(
+					state.WorkGroupId,
+					state.WorkId,
+					state.TrainId
+				);
+				if (timetableMessage != null)
+				{
+					string json = core.SerializeMessage(timetableMessage);
+					await connection.SendTextAsync(json, CancellationToken.None);
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error sending train-changed update to {clientId}: {ex.Message}");
+			}
+		};
+
+		core.Bridge.OnTrainChanged += trainChangedHandler;
+
 		try
 		{
 			// クライアントからのメッセージ受信タスク
@@ -54,6 +82,10 @@ public class WebSocketRequestHandler(WebSocketCore core)
 		finally
 		{
 			Console.WriteLine($"WebSocket client disconnected: {clientId}");
+			if (trainChangedHandler != null)
+			{
+				core.Bridge.OnTrainChanged -= trainChangedHandler;
+			}
 			core.UnregisterWebSocket(clientId);
 		}
 	}
