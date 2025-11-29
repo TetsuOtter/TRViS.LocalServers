@@ -2,6 +2,15 @@
   "version": 1,
   "dependencies": {
     ".NETFramework,Version=v4.8": {
+      "Microsoft.NETFramework.ReferenceAssemblies": {
+        "type": "Direct",
+        "requested": "[1.0.3, )",
+        "resolved": "1.0.3",
+        "contentHash": "vUc9Npcs14QsyOD01tnv/m8sQUnGTGOw1BCmKcv77LBJY7OxhJ+zJF7UD/sCL3lYNFuqmQEVlkfS4Quif6FyYg==",
+        "dependencies": {
+          "Microsoft.NETFramework.ReferenceAssemblies.net48": "1.0.3"
+        }
+      },
       "System.Text.Json": {
         "type": "Direct",
         "requested": "[9.0.0, )",
@@ -20,9 +29,9 @@
       },
       "TR.SimpleHttpServer": {
         "type": "Direct",
-        "requested": "[1.0.0.1, )",
-        "resolved": "1.0.0.1",
-        "contentHash": "bYxrrn2p0jV5JyXR1xzQjvKi2hjEX4DuKZL+gRRdnBnwW4A3Hm7KlrdCRhK4ak+2UFrihQMrWyU8XiKWMV2sZA=="
+        "requested": "[1.1.0, )",
+        "resolved": "1.1.0",
+        "contentHash": "kiXv/iSliiFcceKHCGtbEQ1ZpWkYZEUAqQCmCOGCjGS3AzS22wV/O+FVC/Bwke78/xA9m/vKG1cC9AnnZBYJlw=="
       },
       "TRViS.JsonModels": {
         "type": "Direct",
@@ -37,6 +46,11 @@
         "dependencies": {
           "System.Threading.Tasks.Extensions": "4.5.4"
         }
+      },
+      "Microsoft.NETFramework.ReferenceAssemblies.net48": {
+        "type": "Transitive",
+        "resolved": "1.0.3",
+        "contentHash": "zMk4D+9zyiEWByyQ7oPImPN/Jhpj166Ky0Nlla4eXlNL8hI/BtSJsgR8Inldd4NNpIAH3oh8yym0W2DrhXdSLQ=="
       },
       "System.Buffers": {
         "type": "Transitive",
@@ -124,9 +138,9 @@
       },
       "TR.SimpleHttpServer": {
         "type": "Direct",
-        "requested": "[1.0.0.1, )",
-        "resolved": "1.0.0.1",
-        "contentHash": "bYxrrn2p0jV5JyXR1xzQjvKi2hjEX4DuKZL+gRRdnBnwW4A3Hm7KlrdCRhK4ak+2UFrihQMrWyU8XiKWMV2sZA=="
+        "requested": "[1.1.0, )",
+        "resolved": "1.1.0",
+        "contentHash": "kiXv/iSliiFcceKHCGtbEQ1ZpWkYZEUAqQCmCOGCjGS3AzS22wV/O+FVC/Bwke78/xA9m/vKG1cC9AnnZBYJlw=="
       },
       "TRViS.JsonModels": {
         "type": "Direct",
