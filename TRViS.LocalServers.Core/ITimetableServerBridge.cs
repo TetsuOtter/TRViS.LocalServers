@@ -12,11 +12,6 @@ public interface ITimetableServerBridge
 
 	SyncedData GetSyncedData();
 
-	/// <summary>
-	/// Fired when a train selection/identity has changed (train id, work id or workgroup scope changed)
-	/// </summary>
-	event EventHandler<TrainChangedEventArgs>? OnTrainChanged;
-
 	WorkGroupData[]? GetWorkGroup();
 	WorkGroupData[]? GetWorkGroupByWorkGroupId(string workGroupId);
 	WorkGroupData[]? GetWorkGroupByWorkId(string workId);

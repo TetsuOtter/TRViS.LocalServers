@@ -16,6 +16,7 @@ public class WebSocketRequestHandler(WebSocketCore core)
 {
 	private readonly WebSocketCore core = core;
 	private const int SYNC_DATA_INTERVAL_MS = 250; // 4回/秒
+	private bool previousScenarioLoaded = false;
 
 	private static readonly JsonSerializerOptions DeserializerOptions = new()
 	{
@@ -45,28 +46,6 @@ public class WebSocketRequestHandler(WebSocketCore core)
 			Console.WriteLine($"Error sending initial Timetable to {clientId}: {ex.Message}");
 		}
 
-		// Subscribe to train changed events for this connection so we can push updates
-		EventHandler<TrainChangedEventArgs>? trainChangedHandler = null;
-		trainChangedHandler = async (s, e) =>
-		{
-			try
-			{
-				var timetableMessage = core.GenerateInitialTimetableMessage();
-				if (timetableMessage != null)
-				{
-					string json = core.SerializeMessage(timetableMessage);
-					await connection.SendTextAsync(json, CancellationToken.None);
-					Console.WriteLine($"Scenario changed, resent Timetable to {clientId}");
-				}
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error sending train-changed update to {clientId}: {ex.Message}");
-			}
-		};
-
-		core.Bridge.OnTrainChanged += trainChangedHandler;
-
 		try
 		{
 			// クライアントからのメッセージ受信タスク
@@ -91,10 +70,6 @@ public class WebSocketRequestHandler(WebSocketCore core)
 		finally
 		{
 			Console.WriteLine($"WebSocket client disconnected: {clientId}");
-			if (trainChangedHandler != null)
-			{
-				core.Bridge.OnTrainChanged -= trainChangedHandler;
-			}
 			core.UnregisterWebSocket(clientId);
 		}
 	}
@@ -137,6 +112,32 @@ public class WebSocketRequestHandler(WebSocketCore core)
 		{
 			while (connection.IsOpen)
 			{
+				// シナリオ読み込み状態の変化を検知
+				bool currentScenarioLoaded = core.Bridge.IsScenarioLoaded;
+				if (previousScenarioLoaded != currentScenarioLoaded)
+				{
+					previousScenarioLoaded = currentScenarioLoaded;
+					if (currentScenarioLoaded)
+					{
+						Console.WriteLine("[TimetableServerPlugin] Scenario loaded.");
+						// 新しいシナリオが読み込まれた場合、初期 Timetable メッセージを送信
+						try
+						{
+							var timetableMessage = core.GenerateInitialTimetableMessage();
+							if (timetableMessage != null)
+							{
+								string json = core.SerializeMessage(timetableMessage);
+								await connection.SendTextAsync(json, CancellationToken.None);
+								Console.WriteLine($"Scenario changed, sent initial Timetable to {clientId}");
+							}
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine($"Error sending initial Timetable to {clientId}: {ex.Message}");
+						}
+					}
+				}
+
 				var syncedDataMessage = core.GenerateSyncedDataMessage();
 				if (syncedDataMessage != null)
 				{
