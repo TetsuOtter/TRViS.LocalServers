@@ -15,7 +15,7 @@ namespace TRViS.LocalServers.Core.WebSocket;
 public class WebSocketRequestHandler(WebSocketCore core)
 {
 	private readonly WebSocketCore core = core;
-	private const int SYNC_DATA_INTERVAL_MS = 100; // 10回/秒
+	private const int SYNC_DATA_INTERVAL_MS = 250; // 4回/秒
 
 	private static readonly JsonSerializerOptions DeserializerOptions = new()
 	{
@@ -137,16 +137,31 @@ public class WebSocketRequestHandler(WebSocketCore core)
 		{
 			while (connection.IsOpen)
 			{
-				await Task.Delay(SYNC_DATA_INTERVAL_MS);
-
-				if (!connection.IsOpen)
-					break;
-
 				var syncedDataMessage = core.GenerateSyncedDataMessage();
 				if (syncedDataMessage != null)
 				{
 					string syncJson = core.SerializeMessage(syncedDataMessage);
 					await connection.SendTextAsync(syncJson, CancellationToken.None);
+
+					// 送信したデータの時刻から次の送信タイミングを計算
+					long sentSimulatorTimeMs = syncedDataMessage.Time_ms;
+					int delayMs = SYNC_DATA_INTERVAL_MS;
+
+					// シミュレータ時間で次の秒になるまでの時間を計算
+					int millisecondsUntilNextSecond = 1000 - (int)(sentSimulatorTimeMs % 1000);
+
+					// 待機時間内に次の秒になる場合は、その秒+1msだけ待機
+					if (millisecondsUntilNextSecond <= delayMs)
+					{
+						delayMs = millisecondsUntilNextSecond + 1;
+					}
+
+					await Task.Delay(delayMs);
+				}
+				else
+				{
+					// メッセージ生成に失敗した場合は基本間隔で待機
+					await Task.Delay(SYNC_DATA_INTERVAL_MS);
 				}
 			}
 		}
@@ -154,18 +169,6 @@ public class WebSocketRequestHandler(WebSocketCore core)
 		{
 			Console.WriteLine($"Error sending SyncedData: {ex.Message}");
 		}
-	}
-
-	/// <summary>
-	/// シナリオ情報が等しいかを比較
-	/// </summary>
-	private bool AreScenarioInfoEqual(ResponseTypes.ScenarioInfo? a, ResponseTypes.ScenarioInfo? b)
-	{
-		if (a == null && b == null)
-			return true;
-		if (a == null || b == null)
-			return false;
-		return a.Equals(b);
 	}
 
 	/// <summary>
