@@ -7,6 +7,7 @@ import {
 	IS_URL_PARAM_ERROR,
 	TIMETABLE_JSON_URL,
 	TRVIS_APP_LINK_PATH,
+	TRVIS_APP_LINK_WS,
 } from "./constants/connectionParams";
 import LicenseInfo from "./Components/LicenseInfo";
 import ConnectionlessQr from "./Components/ConnectionlessQr";
@@ -35,15 +36,22 @@ const App = () => {
 					</p>
 
 					<p>
-						または、下のURLをTRViSにて入力してください。
+						または、下のURLをTRViSにて入力してください。(TRViS
+						v0.1.0-85以降のみ)
 						<br />
-						<a href={TIMETABLE_JSON_URL}>{TIMETABLE_JSON_URL}</a>
+						<a href={TRVIS_APP_LINK_WS}>{TRVIS_APP_LINK_WS}</a>
 					</p>
 
 					<p>
-						TRViS v0.1.0-74以降の場合、以下のリンクも入力できます。
+						TRViS v0.1.0-74以降はこちら
 						<br />
 						<a href={TRVIS_APP_LINK_PATH}>{TRVIS_APP_LINK_PATH}</a>
+					</p>
+
+					<p>
+						それ以前のTRViSではこちら
+						<br />
+						<a href={TIMETABLE_JSON_URL}>{TIMETABLE_JSON_URL}</a>
 					</p>
 
 					<p>
