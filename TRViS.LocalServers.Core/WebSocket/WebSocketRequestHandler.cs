@@ -15,7 +15,7 @@ namespace TRViS.LocalServers.Core.WebSocket;
 public class WebSocketRequestHandler(WebSocketCore core)
 {
 	private readonly WebSocketCore core = core;
-	private const int SYNC_DATA_INTERVAL_MS = 200; // 5回/秒
+	private const int SYNC_DATA_INTERVAL_MS = 100; // 10回/秒
 
 	private static readonly JsonSerializerOptions DeserializerOptions = new()
 	{
