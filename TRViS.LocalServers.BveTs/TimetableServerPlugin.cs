@@ -229,6 +229,7 @@ public partial class TimetableServerPlugin : PluginBase, IExtension, ITimetableS
 			previousScenarioLoaded = currentScenarioLoaded;
 			if (currentScenarioLoaded)
 			{
+				Console.WriteLine("[TimetableServerPlugin] Scenario loaded.");
 				OnTrainChanged?.Invoke(this, new TrainChangedEventArgs
 				{
 					WorkGroupId = WORK_GROUP_ID,
