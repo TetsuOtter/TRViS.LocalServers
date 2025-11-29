@@ -30,24 +30,33 @@ public class WebSocketRequestHandler(WebSocketCore core)
 		string clientId = core.CreateClientState();
 		Console.WriteLine($"WebSocket client connected: {clientId}");
 
+		// Send initial Timetable message when connection is established
+		try
+		{
+			var timetableMessage = core.GenerateInitialTimetableMessage();
+			if (timetableMessage != null)
+			{
+				string json = core.SerializeMessage(timetableMessage);
+				await connection.SendTextAsync(json, CancellationToken.None);
+			}
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error sending initial Timetable to {clientId}: {ex.Message}");
+		}
+
 		// Subscribe to train changed events for this connection so we can push updates
 		EventHandler<TrainChangedEventArgs>? trainChangedHandler = null;
 		trainChangedHandler = async (s, e) =>
 		{
 			try
 			{
-				var state = core.GetClientState(clientId);
-				if (state == null)
-					return;
-				var timetableMessage = core.GenerateTimetableMessage(
-					state.WorkGroupId,
-					state.WorkId,
-					state.TrainId
-				);
+				var timetableMessage = core.GenerateInitialTimetableMessage();
 				if (timetableMessage != null)
 				{
 					string json = core.SerializeMessage(timetableMessage);
 					await connection.SendTextAsync(json, CancellationToken.None);
+					Console.WriteLine($"Scenario changed, resent Timetable to {clientId}");
 				}
 			}
 			catch (Exception ex)
@@ -145,6 +154,18 @@ public class WebSocketRequestHandler(WebSocketCore core)
 		{
 			Console.WriteLine($"Error sending SyncedData: {ex.Message}");
 		}
+	}
+
+	/// <summary>
+	/// シナリオ情報が等しいかを比較
+	/// </summary>
+	private bool AreScenarioInfoEqual(ResponseTypes.ScenarioInfo? a, ResponseTypes.ScenarioInfo? b)
+	{
+		if (a == null && b == null)
+			return true;
+		if (a == null || b == null)
+			return false;
+		return a.Equals(b);
 	}
 
 	/// <summary>

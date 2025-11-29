@@ -115,6 +115,20 @@ public class WebSocketCore(ITimetableServerBridge bridge) : IDisposable
 	}
 
 	/// <summary>
+	/// 初回接続時用の Timetable メッセージを生成（すべてのデータを返す）
+	/// </summary>
+	public ServerTimetableMessage? GenerateInitialTimetableMessage()
+	{
+		WorkGroupData[]? data = bridge.GetWorkGroup();
+
+		if (data is null)
+			return null;
+
+		var message = new ServerTimetableMessage { Data = data };
+		return message;
+	}
+
+	/// <summary>
 	/// メッセージを JSON 文字列にシリアライズ
 	/// </summary>
 	public string SerializeMessage(object message)
