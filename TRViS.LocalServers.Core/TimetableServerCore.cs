@@ -8,14 +8,17 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using TR.SimpleHttpServer;
+using TR.SimpleHttpServer.WebSocket;
 
 using TRViS.LocalServers.Core.Http;
+using TRViS.LocalServers.Core.WebSocket;
 
 namespace TRViS.LocalServers.Core;
 
 public class TimetableServerCore : IDisposable
 {
 	const string LISTENER_PATH = "/";
+	const string WEBSOCKET_PATH = "/ws";
 	const int LISTENER_PORT = 58600;
 	const int PORT_RETRY_MAX = 10;
 	public IPAddress? ipv4Address;
@@ -26,12 +29,16 @@ public class TimetableServerCore : IDisposable
 
 	public static readonly Assembly currentAssembly = Assembly.GetExecutingAssembly();
 	readonly HttpRequestHandler httpRequestHandler;
+	readonly WebSocketRequestHandler webSocketRequestHandler;
+	readonly WebSocketCore webSocketCore;
 
 	public TimetableServerCore(ITimetableServerBridge bridge)
 	{
 		additionalHeaders.Add("Access-Control-Allow-Origin", "*");
 		ipv4Address = Dns.GetHostAddresses(Dns.GetHostName()).FirstOrDefault(v => v.AddressFamily == AddressFamily.InterNetwork);
 		httpRequestHandler = new HttpRequestHandler(bridge, additionalHeaders);
+		webSocketCore = new WebSocketCore(bridge);
+		webSocketRequestHandler = new WebSocketRequestHandler(webSocketCore);
 		server = StartListener(out port);
 	}
 
@@ -45,7 +52,7 @@ public class TimetableServerCore : IDisposable
 			HttpServer? server = null;
 			try
 			{
-				server = new((ushort)port, HttpHandlerAsync);
+				server = new((ushort)port, HttpHandlerAsync, HandleWebSocketPath);
 				server.Start();
 				return server;
 			}
@@ -64,6 +71,15 @@ public class TimetableServerCore : IDisposable
 		}
 
 		throw new InvalidOperationException("TimetableServerPlugin: Address already in use.", _ex);
+	}
+
+	private async Task<WebSocketHandler?> HandleWebSocketPath(string path)
+	{
+		if (path == WEBSOCKET_PATH)
+		{
+			return webSocketRequestHandler.HandleWebSocketAsync;
+		}
+		return null;
 	}
 
 	private async Task<HttpResponse> HttpHandlerAsync(HttpRequest request)
@@ -92,5 +108,6 @@ public class TimetableServerCore : IDisposable
 	{
 		server.Stop();
 		server.Dispose();
+		webSocketCore.Dispose();
 	}
 }
