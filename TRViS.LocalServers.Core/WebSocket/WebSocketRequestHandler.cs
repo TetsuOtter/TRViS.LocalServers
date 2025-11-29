@@ -155,39 +155,37 @@ public class WebSocketRequestHandler(WebSocketCore core)
 		try
 		{
 			// JSON を解析して MessageType があるかチェック
-			using (var doc = JsonDocument.Parse(messageJson))
+			using var doc = JsonDocument.Parse(messageJson);
+			var root = doc.RootElement;
+
+			// MessageType フィールドがあるかチェック
+			if (root.TryGetProperty("MessageType", out var messageTypeElement))
 			{
-				var root = doc.RootElement;
+				// Timetable または SyncedData メッセージと考える
+				// ここではクライアントから Timetable/SyncedData は通常送信されないため無視
+				return;
+			}
 
-				// MessageType フィールドがあるかチェック
-				if (root.TryGetProperty("MessageType", out var messageTypeElement))
+			// MessageType がない場合は ID 更新メッセージと解釈
+			var idUpdateMessage = JsonSerializer.Deserialize<ClientIdUpdateMessage>(messageJson, DeserializerOptions);
+			if (idUpdateMessage != null)
+			{
+				core.HandleClientIdUpdate(clientId, idUpdateMessage);
+
+				// 更新後、クライアントに timetable を送信
+				var state = core.GetClientState(clientId);
+				if (state != null)
 				{
-					// Timetable または SyncedData メッセージと考える
-					// ここではクライアントから Timetable/SyncedData は通常送信されないため無視
-					return;
-				}
+					var timetableMessage = core.GenerateTimetableMessage(
+						state.WorkGroupId,
+						state.WorkId,
+						state.TrainId
+					);
 
-				// MessageType がない場合は ID 更新メッセージと解釈
-				var idUpdateMessage = JsonSerializer.Deserialize<ClientIdUpdateMessage>(messageJson, DeserializerOptions);
-				if (idUpdateMessage != null)
-				{
-					core.HandleClientIdUpdate(clientId, idUpdateMessage);
-
-					// 更新後、クライアントに timetable を送信
-					var state = core.GetClientState(clientId);
-					if (state != null)
+					if (timetableMessage != null)
 					{
-						var timetableMessage = core.GenerateTimetableMessage(
-							state.WorkGroupId,
-							state.WorkId,
-							state.TrainId
-						);
-
-						if (timetableMessage != null)
-						{
-							string responseJson = core.SerializeMessage(timetableMessage);
-							await connection.SendTextAsync(responseJson, CancellationToken.None);
-						}
+						string responseJson = core.SerializeMessage(timetableMessage);
+						await connection.SendTextAsync(responseJson, CancellationToken.None);
 					}
 				}
 			}
