@@ -21,7 +21,7 @@ public class TimetableServerCore : IDisposable
 	const string WEBSOCKET_PATH = "/ws";
 	const int LISTENER_PORT = 58600;
 	const int PORT_RETRY_MAX = 10;
-	public IPAddress? ipv4Address;
+	public IPAddress[] ipv4Addresses;
 	public readonly int port;
 	readonly HttpServer server;
 
@@ -35,7 +35,8 @@ public class TimetableServerCore : IDisposable
 	public TimetableServerCore(ITimetableServerBridge bridge)
 	{
 		additionalHeaders.Add("Access-Control-Allow-Origin", "*");
-		ipv4Address = Dns.GetHostAddresses(Dns.GetHostName()).FirstOrDefault(v => v.AddressFamily == AddressFamily.InterNetwork);
+		var addresses = Dns.GetHostAddresses(Dns.GetHostName()).Where(v => v.AddressFamily == AddressFamily.InterNetwork).ToArray();
+		ipv4Addresses = addresses.Length > 0 ? addresses : [IPAddress.Loopback];
 		httpRequestHandler = new HttpRequestHandler(bridge, additionalHeaders);
 		webSocketCore = new WebSocketCore(bridge);
 		webSocketRequestHandler = new WebSocketRequestHandler(webSocketCore);
@@ -102,7 +103,7 @@ public class TimetableServerCore : IDisposable
 		}
 	}
 
-	public string BrowserLinkPath => $"{LISTENER_PATH}index.html?host={ipv4Address}&port={port}";
+	public string BrowserLinkPath => $"{LISTENER_PATH}index.html?host={string.Join(",", ipv4Addresses.Select(a => a.ToString()))}&port={port}";
 	public string BrowserLink => $"http://localhost:{port}{BrowserLinkPath}";
 	public void OnOpenBrowserClicked() => Process.Start(BrowserLink);
 

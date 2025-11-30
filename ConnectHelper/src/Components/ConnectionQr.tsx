@@ -2,14 +2,15 @@ import { memo, useState } from "react";
 import UrlQr from "./UrlQr";
 import {
 	IS_URL_PARAM_ERROR,
-	SERVER_HOST,
+	SERVER_HOSTS,
 	SERVER_PORT,
-	TRVIS_APP_LINK_PATH,
-	TRVIS_APP_LINK_WS,
+	getTrvisAppLinkPath,
+	getTrvisAppLinkWs,
 } from "../constants/connectionParams";
 
 type ConnectionQrProps = {
 	hasCurrentDataLoadError: boolean;
+	selectedHost: string;
 };
 
 type LinkType = "http" | "websocket";
@@ -39,9 +40,13 @@ const QR_CONTAINER_STYLE = {
 
 export default memo(function ConnectionQr({
 	hasCurrentDataLoadError,
+	selectedHost,
 }: ConnectionQrProps) {
 	const [forceShowQr, setForceShowQr] = useState<boolean>(false);
 	const [linkType, setLinkType] = useState<LinkType>("websocket");
+
+	const trvisAppLinkPath = getTrvisAppLinkPath(selectedHost);
+	const trvisAppLinkWs = getTrvisAppLinkWs(selectedHost);
 
 	return (
 		<div
@@ -55,7 +60,7 @@ export default memo(function ConnectionQr({
 				<span style={{ color: "red", fontWeight: "bold" }}>
 					パラメータが不正です
 					<br />
-					(host: {SERVER_HOST}, port: {SERVER_PORT})
+					(host: {SERVER_HOSTS.join(", ")}, port: {SERVER_PORT})
 				</span>
 			) : !forceShowQr && hasCurrentDataLoadError ? (
 				<>
@@ -86,7 +91,7 @@ export default memo(function ConnectionQr({
 			) : (
 				<>
 					<UrlQr
-						url={linkType === "http" ? TRVIS_APP_LINK_PATH : TRVIS_APP_LINK_WS}
+						url={linkType === "http" ? trvisAppLinkPath : trvisAppLinkWs}
 						style={QR_CONTAINER_STYLE}
 					/>
 					<div style={BUTTON_CONTAINER_STYLE}>

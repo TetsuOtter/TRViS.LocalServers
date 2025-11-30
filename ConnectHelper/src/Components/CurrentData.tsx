@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { SERVER_HOST, SERVER_PORT } from "../constants/connectionParams";
+import { SERVER_PORT } from "../constants/connectionParams";
 
 type CurrentDataProps = {
 	setHasError: (hasError: boolean) => void;
+	selectedHost: string;
 };
 
 interface CurrentScenarioInfo {
@@ -15,14 +16,14 @@ const requestInit: RequestInit = {};
 
 const REQUEST_INTERVAL = 30 * 1000;
 
-const CurrentData = ({ setHasError }: CurrentDataProps) => {
+const CurrentData = ({ setHasError, selectedHost }: CurrentDataProps) => {
 	const [currentScenarioInfo, setCurrentScenarioInfo] =
 		useState<CurrentScenarioInfo | null>(null);
 	const [errorMessage, setErrorMessage] = useState<string>("");
 
 	const loadCurrentScenarioInfo = useCallback(() => {
 		try {
-			fetch(`http://${SERVER_HOST}:${SERVER_PORT}/scenario-info.json`, {
+			fetch(`http://${selectedHost}:${SERVER_PORT}/scenario-info.json`, {
 				...requestInit,
 				signal: AbortSignal.timeout(REQUEST_INTERVAL),
 			})
@@ -64,7 +65,7 @@ const CurrentData = ({ setHasError }: CurrentDataProps) => {
 		} catch (e) {
 			console.error(e);
 		}
-	}, [setHasError]);
+	}, [setHasError, selectedHost]);
 
 	useEffect(() => {
 		if (window.fetch == null) {

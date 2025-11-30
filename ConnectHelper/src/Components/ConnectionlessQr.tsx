@@ -1,21 +1,29 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import {
-	TIMETABLE_JSON_URL,
+	getTimetableJsonUrl,
 	TRVIS_APP_LINK_DATA,
 } from "../constants/connectionParams";
 import UrlQr from "./UrlQr";
 
-export default memo(function ConnectionlessQr() {
+type ConnectionlessQrProps = {
+	selectedHost: string;
+};
+
+export default memo(function ConnectionlessQr({
+	selectedHost,
+}: ConnectionlessQrProps) {
 	const [timetableJsonBase64, setTimetableJsonBase64] = useState<string | null>(
 		null
 	);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+	const timetableJsonUrl = getTimetableJsonUrl(selectedHost);
+
 	const onReloadClicked = useCallback(async () => {
 		try {
 			setErrorMessage(null);
 
-			const res = await fetch(TIMETABLE_JSON_URL);
+			const res = await fetch(timetableJsonUrl);
 
 			if (res.status !== 200 || res.body == null) {
 				throw new Error("時刻表データを読み込めませんでした");
@@ -45,7 +53,7 @@ export default memo(function ConnectionlessQr() {
 			setErrorMessage("時刻表データの読み込みに失敗しました: " + alertMessage);
 			return;
 		}
-	}, []);
+	}, [timetableJsonUrl]);
 
 	useEffect(() => {
 		onReloadClicked();

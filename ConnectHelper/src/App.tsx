@@ -5,9 +5,10 @@ import CurrentData from "./Components/CurrentData";
 import ConnectionQr from "./Components/ConnectionQr";
 import {
 	IS_URL_PARAM_ERROR,
-	TIMETABLE_JSON_URL,
-	TRVIS_APP_LINK_PATH,
-	TRVIS_APP_LINK_WS,
+	SERVER_HOSTS,
+	getTimetableJsonUrl,
+	getTrvisAppLinkPath,
+	getTrvisAppLinkWs,
 } from "./constants/connectionParams";
 import LicenseInfo from "./Components/LicenseInfo";
 import ConnectionlessQr from "./Components/ConnectionlessQr";
@@ -17,18 +18,48 @@ const App = () => {
 		useState<boolean>(false);
 	const [isConnectionlessMode, setIsConnectionlessMode] =
 		useState<boolean>(false);
+	const [selectedHost, setSelectedHost] = useState<string>(
+		SERVER_HOSTS[0] ?? ""
+	);
+
+	const timetableJsonUrl = getTimetableJsonUrl(selectedHost);
+	const trvisAppLinkPath = getTrvisAppLinkPath(selectedHost);
+	const trvisAppLinkWs = getTrvisAppLinkWs(selectedHost);
 
 	return (
 		<>
 			<h1>TRViS連携用QRコード</h1>
 			{isConnectionlessMode ? (
-				<ConnectionlessQr />
+				<ConnectionlessQr selectedHost={selectedHost} />
 			) : (
-				<ConnectionQr hasCurrentDataLoadError={hasCurrentDataLoadError} />
+				<ConnectionQr
+					hasCurrentDataLoadError={hasCurrentDataLoadError}
+					selectedHost={selectedHost}
+				/>
 			)}
 
 			{!IS_URL_PARAM_ERROR && (
 				<>
+					{SERVER_HOSTS.length > 1 && (
+						<p>
+							<label htmlFor="host-selector">接続先IPアドレス: </label>
+							<select
+								id="host-selector"
+								value={selectedHost}
+								onChange={(e) => setSelectedHost(e.target.value)}
+								style={{
+									padding: "0.5em",
+									fontSize: "1em",
+								}}>
+								{SERVER_HOSTS.map((host) => (
+									<option key={host} value={host}>
+										{host}
+									</option>
+								))}
+							</select>
+						</p>
+					)}
+
 					<p>
 						ゲーム側でシナリオを読み込んだ後、TRViSがインストールされた端末でこのQRコードを読み取ってください。
 						<br />
@@ -39,19 +70,19 @@ const App = () => {
 						または、下のURLをTRViSにて入力してください。(TRViS
 						v0.1.0-85以降のみ)
 						<br />
-						<a href={TRVIS_APP_LINK_WS}>{TRVIS_APP_LINK_WS}</a>
+						<a href={trvisAppLinkWs}>{trvisAppLinkWs}</a>
 					</p>
 
 					<p>
 						TRViS v0.1.0-74以降はこちら
 						<br />
-						<a href={TRVIS_APP_LINK_PATH}>{TRVIS_APP_LINK_PATH}</a>
+						<a href={trvisAppLinkPath}>{trvisAppLinkPath}</a>
 					</p>
 
 					<p>
 						それ以前のTRViSではこちら
 						<br />
-						<a href={TIMETABLE_JSON_URL}>{TIMETABLE_JSON_URL}</a>
+						<a href={timetableJsonUrl}>{timetableJsonUrl}</a>
 					</p>
 
 					<p>
@@ -72,7 +103,10 @@ const App = () => {
 			)}
 
 			{!IS_URL_PARAM_ERROR && (
-				<CurrentData setHasError={setHasCurrentDataLoadError} />
+				<CurrentData
+					setHasError={setHasCurrentDataLoadError}
+					selectedHost={selectedHost}
+				/>
 			)}
 
 			<LicenseInfo />
