@@ -18,6 +18,13 @@ public interface ITimetableServerBridge
 	WorkGroupData[]? GetWorkGroupByTrainId(string trainId);
 }
 
+public class TrainChangedEventArgs : EventArgs
+{
+	public string? WorkGroupId { get; set; }
+	public string? WorkId { get; set; }
+	public string? TrainId { get; set; }
+}
+
 public static class TimetableServerBridgeUtils
 {
 	public static WorkGroupData[]? GetWorkGroupByWorkGroupId(Func<WorkGroupData[]?> getWorkGroup, string workGroupId)

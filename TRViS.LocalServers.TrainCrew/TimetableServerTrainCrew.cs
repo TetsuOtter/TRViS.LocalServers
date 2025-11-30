@@ -230,6 +230,10 @@ public class TimetableServerTrainCrewBridge : ITimetableServerBridge, IDisposabl
 	static string getTimeStr(in TimeSpan time) => time.ToString(@"hh\:mm\:ss");
 	readonly CancellationTokenSource loopCancel = new();
 
+	private string? lastTrainId = null;
+
+	public event EventHandler<TrainChangedEventArgs>? OnTrainChanged;
+
 	public TimetableServerTrainCrewBridge()
 	{
 		// 100msごとに処理するタスクを実行する
@@ -259,13 +263,25 @@ public class TimetableServerTrainCrewBridge : ITimetableServerBridge, IDisposabl
 	{
 		_state = TrainCrewInput.GetTrainState();
 
+		// detect train identity change and raise event
+		try
+		{
+			string? currentTrainId = _state?.diaName;
+			if (currentTrainId != lastTrainId)
+			{
+				lastTrainId = currentTrainId;
+				OnTrainChanged?.Invoke(this, new TrainChangedEventArgs { TrainId = currentTrainId });
+			}
+		}
+		catch (Exception) { }
+
 		// すぐに返ってくるわけではないはずなので、次のループでの取得を期待してリクエストする
 		DateTime now = DateTime.Now;
 		if (lastScenarioLoadedState != IsScenarioLoaded)
 		{
 			// ロード直後に駅リストを更新するため
 			lastScenarioLoadedState = IsScenarioLoaded;
-			_state.stationList.Clear();
+			_state?.stationList.Clear();
 			if (IsScenarioLoaded)
 			{
 				lastStaListRequest = now;

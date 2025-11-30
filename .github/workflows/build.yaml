@@ -1,4 +1,4 @@
-name: Build and Release Action (BVE Trainsim)
+name: Build (BVE Trainsim)
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Build and Release Action (TRAIN CREW)
+name: Build (TRAIN CREW)
 
 on:
   push:

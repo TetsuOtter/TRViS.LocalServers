@@ -5,16 +5,43 @@ import {
 	SERVER_HOST,
 	SERVER_PORT,
 	TRVIS_APP_LINK_PATH,
+	TRVIS_APP_LINK_WS,
 } from "../constants/connectionParams";
 
 type ConnectionQrProps = {
 	hasCurrentDataLoadError: boolean;
 };
 
+type LinkType = "http" | "websocket";
+
+const BUTTON_CONTAINER_STYLE = {
+	marginBottom: "1em",
+	display: "flex" as const,
+	justifyContent: "center" as const,
+	gap: "0.5em",
+};
+
+const getButtonStyle = (isSelected: boolean) =>
+	({
+		padding: "0.5em 1em",
+		fontWeight: isSelected ? "bold" : "normal",
+		cursor: "pointer" as const,
+		backgroundColor: isSelected ? "#007bff" : "#f0f0f0",
+		color: isSelected ? "#fff" : "#333",
+		border: isSelected ? "2px solid #0056b3" : "2px solid #ccc",
+		borderRadius: "4px",
+	}) as const;
+
+const QR_CONTAINER_STYLE = {
+	width: "80%",
+	margin: "10%",
+};
+
 export default memo(function ConnectionQr({
 	hasCurrentDataLoadError,
 }: ConnectionQrProps) {
 	const [forceShowQr, setForceShowQr] = useState<boolean>(false);
+	const [linkType, setLinkType] = useState<LinkType>("websocket");
 
 	return (
 		<div
@@ -57,13 +84,24 @@ export default memo(function ConnectionQr({
 					</p>
 				</>
 			) : (
-				<UrlQr
-					url={TRVIS_APP_LINK_PATH}
-					style={{
-						width: "80%",
-						margin: "10%",
-					}}
-				/>
+				<>
+					<UrlQr
+						url={linkType === "http" ? TRVIS_APP_LINK_PATH : TRVIS_APP_LINK_WS}
+						style={QR_CONTAINER_STYLE}
+					/>
+					<div style={BUTTON_CONTAINER_STYLE}>
+						<button
+							onClick={() => setLinkType("websocket")}
+							style={getButtonStyle(linkType === "websocket")}>
+							WebSocketリンク
+						</button>
+						<button
+							onClick={() => setLinkType("http")}
+							style={getButtonStyle(linkType === "http")}>
+							HTTPリンク
+						</button>
+					</div>
+				</>
 			)}
 		</div>
 	);

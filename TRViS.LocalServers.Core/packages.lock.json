@@ -20,9 +20,9 @@
       },
       "TR.SimpleHttpServer": {
         "type": "Direct",
-        "requested": "[1.0.0.1, )",
-        "resolved": "1.0.0.1",
-        "contentHash": "bYxrrn2p0jV5JyXR1xzQjvKi2hjEX4DuKZL+gRRdnBnwW4A3Hm7KlrdCRhK4ak+2UFrihQMrWyU8XiKWMV2sZA=="
+        "requested": "[1.1.0, )",
+        "resolved": "1.1.0",
+        "contentHash": "kiXv/iSliiFcceKHCGtbEQ1ZpWkYZEUAqQCmCOGCjGS3AzS22wV/O+FVC/Bwke78/xA9m/vKG1cC9AnnZBYJlw=="
       },
       "TRViS.JsonModels": {
         "type": "Direct",
@@ -124,9 +124,9 @@
       },
       "TR.SimpleHttpServer": {
         "type": "Direct",
-        "requested": "[1.0.0.1, )",
-        "resolved": "1.0.0.1",
-        "contentHash": "bYxrrn2p0jV5JyXR1xzQjvKi2hjEX4DuKZL+gRRdnBnwW4A3Hm7KlrdCRhK4ak+2UFrihQMrWyU8XiKWMV2sZA=="
+        "requested": "[1.1.0, )",
+        "resolved": "1.1.0",
+        "contentHash": "kiXv/iSliiFcceKHCGtbEQ1ZpWkYZEUAqQCmCOGCjGS3AzS22wV/O+FVC/Bwke78/xA9m/vKG1cC9AnnZBYJlw=="
       },
       "TRViS.JsonModels": {
         "type": "Direct",
