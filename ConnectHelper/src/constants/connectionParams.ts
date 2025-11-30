@@ -1,11 +1,18 @@
 const params = new URLSearchParams(window.location.search);
-export const SERVER_HOST = params.get("host") ?? "";
+const hostParam = params.get("host") ?? "";
+export const SERVER_HOSTS = hostParam.split(",").filter((h) => h.length > 0);
 export const SERVER_PORT = parseInt(params.get("port") ?? "");
 export const IS_URL_PARAM_ERROR =
-	SERVER_HOST === "" || !(0 < SERVER_PORT && SERVER_PORT < 65536);
-export const TIMETABLE_JSON_URL = `http://${SERVER_HOST}:${SERVER_PORT}/timetable.json`;
-export const SYNC_DATA_JSON_URL = `http://${SERVER_HOST}:${SERVER_PORT}/sync`;
-export const SYNC_DATA_WS_URL = `ws://${SERVER_HOST}:${SERVER_PORT}/ws`;
-export const TRVIS_APP_LINK_PATH = `trvis://app/open/json?path=${TIMETABLE_JSON_URL}&rts=${SYNC_DATA_JSON_URL}`;
-export const TRVIS_APP_LINK_WS = `trvis://app/open/json?path=${SYNC_DATA_WS_URL}`;
+	SERVER_HOSTS.length === 0 || !(0 < SERVER_PORT && SERVER_PORT < 65536);
+
+export const getTimetableJsonUrl = (host: string) =>
+	`http://${host}:${SERVER_PORT}/timetable.json`;
+export const getSyncDataJsonUrl = (host: string) =>
+	`http://${host}:${SERVER_PORT}/sync`;
+export const getSyncDataWsUrl = (host: string) =>
+	`ws://${host}:${SERVER_PORT}/ws`;
+export const getTrvisAppLinkPath = (host: string) =>
+	`trvis://app/open/json?path=${getTimetableJsonUrl(host)}&rts=${getSyncDataJsonUrl(host)}`;
+export const getTrvisAppLinkWs = (host: string) =>
+	`trvis://app/open/json?path=${getSyncDataWsUrl(host)}`;
 export const TRVIS_APP_LINK_DATA = `trvis://app/open/json?data=`;
