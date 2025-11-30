@@ -35,7 +35,8 @@ public class TimetableServerCore : IDisposable
 	public TimetableServerCore(ITimetableServerBridge bridge)
 	{
 		additionalHeaders.Add("Access-Control-Allow-Origin", "*");
-		ipv4Addresses = Dns.GetHostAddresses(Dns.GetHostName()).Where(v => v.AddressFamily == AddressFamily.InterNetwork).ToArray();
+		var addresses = Dns.GetHostAddresses(Dns.GetHostName()).Where(v => v.AddressFamily == AddressFamily.InterNetwork).ToArray();
+		ipv4Addresses = addresses.Length > 0 ? addresses : [IPAddress.Loopback];
 		httpRequestHandler = new HttpRequestHandler(bridge, additionalHeaders);
 		webSocketCore = new WebSocketCore(bridge);
 		webSocketRequestHandler = new WebSocketRequestHandler(webSocketCore);
