@@ -20,8 +20,6 @@ public partial class TimetableServerPlugin : PluginBase, IExtension, ITimetableS
 	const string WORK_ID = "1-1";
 	const string TRAIN_ID = "1-1-1";
 	readonly TimetableServerCore server;
-
-
 	public TimetableServerPlugin(PluginBuilder builder) : base(builder)
 	{
 		server = new(this);

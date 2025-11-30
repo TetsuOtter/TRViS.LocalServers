@@ -85,15 +85,15 @@ public class WebSocketCore(ITimetableServerBridge bridge) : IDisposable
 		WorkGroupData[]? data = null;
 
 		// スコープに応じてデータを取得
-		if (!string.IsNullOrEmpty(trainId) && trainId != null)
+		if (!string.IsNullOrEmpty(trainId))
 		{
 			data = bridge.GetWorkGroupByTrainId(trainId);
 		}
-		else if (!string.IsNullOrEmpty(workId) && workId != null)
+		else if (!string.IsNullOrEmpty(workId))
 		{
 			data = bridge.GetWorkGroupByWorkId(workId);
 		}
-		else if (!string.IsNullOrEmpty(workGroupId) && workGroupId != null)
+		else if (!string.IsNullOrEmpty(workGroupId))
 		{
 			data = bridge.GetWorkGroupByWorkGroupId(workGroupId);
 		}
